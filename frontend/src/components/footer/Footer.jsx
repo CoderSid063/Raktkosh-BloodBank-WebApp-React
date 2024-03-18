@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./footer.module.css";
 
 const Footer = () => {
@@ -9,24 +10,33 @@ const Footer = () => {
             <h5>Section</h5>
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-body-secondary">
+                <Link to="/" className="nav-link p-0 text-body-secondary">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-body-secondary">
+                <Link
+                  to="/features"
+                  className="nav-link p-0 text-body-secondary"
+                >
                   Features
-                </a>
+                </Link>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-body-secondary">
+                <Link
+                  to="/contact"
+                  className="nav-link p-0 text-body-secondary"
+                >
                   FAQs
-                </a>
+                </Link>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className="nav-link p-0 text-body-secondary">
+                <Link
+                  to="/aboutus"
+                  className="nav-link p-0 text-body-secondary"
+                >
                   About Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

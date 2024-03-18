@@ -5,29 +5,23 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <img src="/logo.png" alt="Logo" />
-        <p className={styles.name}>Raktkosh</p>
+        <Link to="/">
+          <img src="/logo.png" alt="Logo" />
+          <p className={styles.name}>Raktkosh</p>
+        </Link>
       </div>
       <div className={styles.navlinks}>
         <ul>
           <li>
-            <Link to="/">
-              <a href="#">Home</a>
-            </Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/aboutus">
-              <a href="#">About</a>
-            </Link>
+            <Link to="/aboutus">About</Link>
           </li>
           <li>
-            <Link to="/contact">
-              <a href="#">Contact Us</a>
-            </Link>
+            <Link to="/contact">Contact Us</Link>
           </li>
-          <li>
-            <a href="#">Help</a>
-          </li>
+          <li>Help</li>
           <li>
             <button>Login</button>
           </li>
