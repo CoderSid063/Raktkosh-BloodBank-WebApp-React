@@ -1,0 +1,50 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 25px;
+  background-color: #fc1010;
+  color: #f82525;
+}
+.name{
+  display: inline;
+  position: absolute;
+  font-weight: 600;
+  font-size: 30px;
+  padding-left: 50px;
+  top: -13px;
+  color: black;
+}
+
+.logo img {
+  width: 75px; 
+  height: 55px;
+  padding-left: 30px;
+}
+
+.navlinks ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navlinks ul li  {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.navlinks ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navlinks button {
+  border: none;
+  height: 30px;
+  width: 60px;
+  font-weight: 500;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #f8afaf;
+}
