@@ -1,5 +1,5 @@
 .container{
-
+ width: 100%;
 }
 .banner img {
   width: 100%;
@@ -7,7 +7,7 @@
 }
 
 .TMcontaner {
-  width: 100vw;
+  width: 100%;
   /* height: auto; */
   display: flex;
   flex-direction: row;
@@ -65,7 +65,7 @@
 
 
 .Mcontaner {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -136,4 +136,92 @@
 .infocord5:hover {
   transform: translateX(3px);
   box-shadow: 5px 20px 50px rgba(78, 78, 78, 0.1);
+}
+
+#mlogo {
+  color: white;
+  font-size: larger;
+}
+.cardm {
+  font-weight: bolder;
+  text-decoration: none;
+  color: white;
+  text-align: justify;
+}
+
+/* -----------*/
+
+.TLcontaner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+  gap: 10px;
+  text-align: center;
+}
+
+.LTleft {
+  width: 45vw;
+  display: flex;
+}
+
+.LTright {
+  width: 45vw;
+  margin-right: 25px;
+}
+
+.image {
+  width: 300vw;
+  height: 10vh;
+  background-color: brown;
+}
+
+.LTT {
+  background-size: cover;
+}
+
+.LTT img{
+  width: 100%;
+  height: 306px;
+}
+
+.blockquote {
+  text-align: center;
+  font-style: italic;
+  font-weight: 500;
+  margin: 0px 10px;
+}
+
+.LTB {
+  background-color: rgb(255, 255, 255);
+  width: 50vw;
+  height: 10rem;
+  text-align: center;
+}
+
+.footer {
+  background-color: rgb(6, 6, 73);
+}
+
+.footerHtext {
+  color: rgb(153, 153, 153);
+}
+
+.footertext {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.fsub {
+  width: 20vw;
+}
+
+.fdivf {
+  display: flex;
+}
+
+.text {
+  text-align: center;
+  color: red;
 }

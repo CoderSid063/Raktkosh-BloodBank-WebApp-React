@@ -9,11 +9,10 @@
 .name{
   display: inline;
   position: absolute;
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 900;
+  font-size: 36px;
   padding-left: 50px;
-  top: -13px;
-  color: black;
+  color: #1739e98a;
 }
 
 .logo img {
