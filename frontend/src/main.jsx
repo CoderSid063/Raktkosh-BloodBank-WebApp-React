@@ -12,6 +12,7 @@ import Login from "./routes/Login.jsx";
 import BloodRequest from "./routes/BloodRequest.jsx";
 import BloodAvailable from "./routes/BloodAvailable.jsx";
 import DonorRgister from "./routes/DonorRgister.jsx";
+import BloodCampReg from "./routes/BloodCampReg.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       },
       { path: "/bloodavailable", element: <BloodAvailable /> },
       { path: "/donerRegister", element: <DonorRgister /> },
+      {
+        path: "/RegisterCamp",
+        element: <BloodCampReg />,
+      },
     ],
   },
 ]);

@@ -61,7 +61,7 @@ const Home = () => {
                 <i className="bi bi-clock" id="mlogo"></i>
                 <br />
                 <br />
-                <Link to="/BloodCamp" className={styles.cardm}>
+                <Link to="/bloodCamp" className={styles.cardm}>
                   Blood Donation camps
                 </Link>
               </div>
@@ -77,7 +77,7 @@ const Home = () => {
                 <br />
                 <br />
                 <Link to="/RegisterCamp" className={styles.cardm}>
-                  Register Voluntary Blood Camp
+                  Register For Voluntary Blood Camp
                 </Link>
               </div>
             </div>
@@ -138,13 +138,13 @@ const Home = () => {
                   </p>
                 </blockquote>
               </div>
-
-              <button
-                className={`btn btn-danger ${styles.svcNearBy} ${styles["hvr-sweep-to-right"]}`}
-              >
-                <i className="fa fa-tint" aria-hidden="true"></i>&nbsp; Donate
-                Now
-              </button>
+              <Link to="donerRegister">
+                <button
+                  className={`btn btn-danger ${styles.svcNearBy} ${styles["hvr-sweep-to-right"]}`}
+                >
+                  DonateNow
+                </button>
+              </Link>
               <br />
               <br />
             </div>

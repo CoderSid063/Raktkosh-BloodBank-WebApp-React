@@ -1,46 +1,48 @@
-import "../styles/donorRegister.css";
-
-const DonorRgister = () => {
+const BloodCampReg = () => {
   return (
     <div>
-      <form className="row g-3 m-3" action="/donerRegister" method="POST">
-        <div className="col-md-12 text-light mt-2 text-center">
+      <form className="row g-3 m-3" action="/campRegister" method="POST">
+        <div className="col-md-12 text-center text-light mt-2">
           <h3 className="overflow-y-hidden" style={{ color: "red" }}>
-            Donor Registration
+            Camp Registration
           </h3>
         </div>
         <div className="col-md-6">
+          <label htmlFor="inputname" className="form-label">
+            Organization Name
+          </label>
           <input
             type="text"
             className="form-control"
-            placeholder="First name"
             aria-label="First name"
-            name="Firstname"
+            name="OrgName"
           />
         </div>
         <div className="col-md-6">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Last name"
-            aria-label="Last name"
-            name="Lastname"
-          />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="inputEmail4" className="form-label">
-            Email
+          <label htmlFor="inputname" className="form-label">
+            Organization Email
           </label>
           <input
             type="email"
             className="form-control"
+            aria-label="Last name"
+            name="OrgEmail"
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="inputEmail4" className="form-label">
+            Organizer Name
+          </label>
+          <input
+            type="text"
+            className="form-control"
             id="inputEmail4"
-            name="Email"
+            name="Organizer"
           />
         </div>
         <div className="col-md-6">
           <label htmlFor="inputphone4" className="form-label">
-            Mobile No
+            Organizer Mobile No
           </label>
           <input
             type="contact_no"
@@ -52,54 +54,44 @@ const DonorRgister = () => {
           />
         </div>
 
+        <div className="col-md-6">
+          <label htmlFor="inputEmail4" className="form-label">
+            Co-Organizer Name
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputEmail4"
+            name="Co_Organizer"
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="inputphone4" className="form-label">
+            Co-Organizer Mobile
+          </label>
+          <input
+            type="contact_no"
+            minLength="10"
+            maxLength="10"
+            className="form-control"
+            id="inputphone4"
+            name="Co_MobileNo"
+          />
+        </div>
+
         <div className="col-md-3">
           <label htmlFor="dob" className="form-label">
-            D.O.B
+            Camp Date
           </label>
           <input
             type="date"
             className="form-control"
             id="inputDOB4"
-            name="DOfBirth"
+            name="Date"
           />
-        </div>
-        <div className="col-md-3">
-          <label htmlFor="inputState" className="form-label">
-            Gender
-          </label>
-          <select id="inputState" className="form-select" name="Gender">
-            <option selected>Male</option>
-            <option>Female</option>
-          </select>
-        </div>
-        <div className="col-md-3">
-          <label htmlFor="dob" className="form-label">
-            Weight
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="inputZip"
-            name="Weight"
-          />
-        </div>
-        <div className="col-md-3">
-          <label htmlFor="dob" className="form-label">
-            Blood Group
-          </label>
-          <select id="inputState" className="form-select" name="BloodGroup">
-            <option selected>O+</option>
-            <option>A+</option>
-            <option>B+</option>
-            <option>AB+</option>
-            <option>A-</option>
-            <option>B-</option>
-            <option>AB-</option>
-            <option>O-</option>
-          </select>
         </div>
 
-        <div className="col-12">
+        <div className="col-6">
           <label htmlFor="inputAddress" className="form-label">
             Address
           </label>
@@ -111,7 +103,7 @@ const DonorRgister = () => {
             name="Address"
           />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-3">
           <label htmlFor="inputState" className="form-label">
             District
           </label>
@@ -175,4 +167,4 @@ const DonorRgister = () => {
   );
 };
 
-export default DonorRgister;
+export default BloodCampReg;
