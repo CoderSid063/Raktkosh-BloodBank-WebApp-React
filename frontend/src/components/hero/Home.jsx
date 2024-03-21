@@ -46,7 +46,7 @@ const Home = () => {
                 <i className="bi bi-droplet-half" id="mlogo"></i>
                 <br />
                 <br />
-                <Link to="/BloodAvail" className={styles.cardm}>
+                <Link to="/bloodavailable" className={styles.cardm}>
                   Blood Availability Search
                 </Link>
               </div>
@@ -107,7 +107,7 @@ const Home = () => {
                 <i className="bi bi-person-circle" id="mlogo"></i>
                 <br />
                 <br />
-                <Link to="/BloodRequest" className={styles.cardm}>
+                <Link to="/bloodrequest" className={styles.cardm}>
                   Blood Request
                 </Link>
               </div>
