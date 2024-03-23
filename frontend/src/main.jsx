@@ -8,6 +8,11 @@ import AboutUs from "./routes/AboutUs.jsx";
 import App from "./routes/App.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import Home from "./components/hero/Home.jsx";
+import Login from "./routes/Login.jsx";
+import BloodRequest from "./routes/BloodRequest.jsx";
+import BloodAvailable from "./routes/BloodAvailable.jsx";
+import DonorRgister from "./routes/DonorRgister.jsx";
+import BloodCampReg from "./routes/BloodCampReg.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +25,18 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       { path: "/aboutus", element: <AboutUs /> },
-      { path: "/contact", element: <ContactUs /> },
+      { path: "/contactus", element: <ContactUs /> },
+      { path: "/login", element: <Login /> },
+      {
+        path: "/bloodrequest",
+        element: <BloodRequest />,
+      },
+      { path: "/bloodavailable", element: <BloodAvailable /> },
+      { path: "/donerRegister", element: <DonorRgister /> },
+      {
+        path: "/RegisterCamp",
+        element: <BloodCampReg />,
+      },
     ],
   },
 ]);
