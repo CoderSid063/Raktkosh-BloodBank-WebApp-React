@@ -43,9 +43,6 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
-                <i className="bi bi-droplet-half" id="mlogo"></i>
-                <br />
-                <br />
                 <Link to="/bloodavailable" className={styles.cardm}>
                   Blood Availability Search
                 </Link>
@@ -58,10 +55,7 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
-                <i className="bi bi-clock" id="mlogo"></i>
-                <br />
-                <br />
-                <Link to="/bloodCamp" className={styles.cardm}>
+                <Link to="/searchCamp" className={styles.cardm}>
                   Blood Donation camps
                 </Link>
               </div>
@@ -73,9 +67,6 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
-                <i className="bi bi-person-circle" id="mlogo"></i>
-                <br />
-                <br />
                 <Link to="/RegisterCamp" className={styles.cardm}>
                   Register For Voluntary Blood Camp
                 </Link>
@@ -88,7 +79,6 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
-                <i className="bi bi-person-circle" id="mlogo"></i>
                 <br />
                 <br />
                 <Link to="/donerRegister" className={styles.cardm}>
@@ -104,7 +94,6 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
-                <i className="bi bi-person-circle" id="mlogo"></i>
                 <br />
                 <br />
                 <Link to="/bloodrequest" className={styles.cardm}>
