@@ -13,6 +13,7 @@ import BloodRequest from "./routes/BloodRequest.jsx";
 import BloodAvailable from "./routes/BloodAvailable.jsx";
 import DonorRgister from "./routes/DonorRgister.jsx";
 import BloodCampReg from "./routes/BloodCampReg.jsx";
+import BloodCamps from "./routes/BloodCamps.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,15 +28,19 @@ const router = createBrowserRouter([
       { path: "/aboutus", element: <AboutUs /> },
       { path: "/contactus", element: <ContactUs /> },
       { path: "/login", element: <Login /> },
-      {
-        path: "/bloodrequest",
-        element: <BloodRequest />,
-      },
       { path: "/bloodavailable", element: <BloodAvailable /> },
-      { path: "/donerRegister", element: <DonorRgister /> },
+      {
+        path: "/searchCamp",
+        element: <BloodCamps />,
+      },
       {
         path: "/RegisterCamp",
         element: <BloodCampReg />,
+      },
+      { path: "/donerRegister", element: <DonorRgister /> },
+      {
+        path: "/bloodrequest",
+        element: <BloodRequest />,
       },
     ],
   },
