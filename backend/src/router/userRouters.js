@@ -1,9 +1,14 @@
-const express = require("express")
+const express = require("express");
 const router = express.Router();
+const upload = require("../middlewares/multer.middleware.js");
+const { registerUser } = require("../controller/userController.js");
 
-const userController = require("../controller/userController")
+router.route("/register").post(
+  upload.fields([
+    { name: "avatar", maxCount: 1 },
+    { name: "addharImage", maxCount: 1 },
+  ]),
+  registerUser,
+);
 
-
-router.post("/user-register", userController.register);
-
-module.exports = router
+module.exports = router;

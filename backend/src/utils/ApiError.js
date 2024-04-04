@@ -3,7 +3,7 @@ class ApiError extends Error {
     statusCode,
     message = "Something Went Wrong",
     errors = [],
-    stack = ""
+    stack = "",
   ) {
     super(message);
     this.statusCode = statusCode;
@@ -20,4 +20,5 @@ class ApiError extends Error {
   }
 }
 
-export { ApiError };
+module.exports = { ApiError };
+// export { ApiError };

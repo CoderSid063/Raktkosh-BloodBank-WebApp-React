@@ -7,16 +7,15 @@ Ex :--  const asyncHandler = (fn) => () =>{}
 
 // This is a higher order function which return a promice. this is used in a production company.
 
-/*
 const asyncHandler = (requestHandler) => {
   return (req, res, next) => {
     Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
   };
 };
-*/
 
 // This is a higher order function using try catch block
 
+/*
 const asyncHandler = (fn) => async (req, res, next) => {
   try {
     await fn(req, res, next);
@@ -27,8 +26,6 @@ const asyncHandler = (fn) => async (req, res, next) => {
     });
   }
 };
-
-module.exports = {
-  asyncHandler: asyncHandler,
-};
+*/
+module.exports = { asyncHandler };
 // export { asyncHandler };

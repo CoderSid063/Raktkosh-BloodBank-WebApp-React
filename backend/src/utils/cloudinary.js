@@ -10,7 +10,7 @@ cloudinary.config({
 });
 
 // this method take the "local file path" as an argument and upload the file in the cloudnary.
-const uploadCloudnary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
 
@@ -27,7 +27,7 @@ const uploadCloudnary = async (localFilePath) => {
 };
 
 module.exports = {
-  uploadCloudnary: uploadCloudnary,
+  uploadOnCloudinary,
 };
 
 // export { uploadCloudnary };

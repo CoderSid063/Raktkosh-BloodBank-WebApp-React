@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     phoneNumber: {
       type: String,
@@ -37,29 +38,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    nationality: {
-      type: String,
-      required: true,
-    },
     avatar: {
       type: String,
       required: false,
     },
-    // userType: {
-    //     type: String,
-    //     required: true,
-    //     enum: ['user', 'admin']
-    // },
+    addharImage: {
+      type: String,
+    },
     refreshToken: {
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 //mongoose "pre" middleware hook
 // before save the password in database, encryprt the password using bcrypt "hash" method
 userSchema.pre("save", async function (next) {
+  //checking if the password field changed then encrypt the password
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
@@ -67,12 +63,12 @@ userSchema.pre("save", async function (next) {
 
 //This is a custom method before exporrt "User", "isPasswordCorrect" method check if a given password matches the encrypted password stored in the database
 //compare returns true/false
-userSchema.method.isPasswordCorrect = async function (password) {
+userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
 //This custom method is used to generate an access token for a user using "JSON Web Tokens "(JWT)
-userSchema.method.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -84,12 +80,12 @@ userSchema.method.generateAccessToken = function () {
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    }
+    },
   );
 };
 
 //This custom method is used to generate a refresh token for a user using JSON Web Tokens (JWT)
-userSchema.method.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -97,7 +93,7 @@ userSchema.method.generateRefreshToken = function () {
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-    }
+    },
   );
 };
 
