@@ -5,6 +5,7 @@ const {
   registerUser,
   loginUser,
   logoutUser,
+  refreshAccessToken,
 } = require("../controller/userController.js");
 const { verifyJWT } = require("../middlewares/auth.middleware.js");
 
@@ -26,5 +27,6 @@ router.route("/login").post(loginUser);
  * add that user information in "request"
  */
 router.route("/logout").post(verifyJWT, logoutUser);
+router.route("/refresh-token").post(refreshAccessToken);
 
 module.exports = router;
