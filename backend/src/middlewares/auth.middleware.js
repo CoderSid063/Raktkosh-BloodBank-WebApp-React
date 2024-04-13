@@ -1,6 +1,6 @@
 const { asyncHandler } = require("../utils/asyncHandler.js");
 const { ApiError } = require("../utils/ApiError.js");
-const User = require("../model/user.js");
+const User = require("../model/User.js");
 const jwt = require("jsonwebtoken");
 
 // This middlware verify the loginuser in my DB then add information object name:"user" in "request" like "req.objName".

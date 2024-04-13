@@ -3,6 +3,7 @@ const router = express.Router();
 const upload = require("../middlewares/multer.middleware.js");
 const {
   registerUser,
+  registerBloodCamps,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -21,6 +22,10 @@ router.route("/register").post(
   ]),
   registerUser,
 );
+
+router
+  .route("/register-camps")
+  .post(verifyJWT, upload.single("addharImage"), registerBloodCamps);
 
 router.route("/login").post(loginUser);
 

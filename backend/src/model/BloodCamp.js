@@ -26,12 +26,15 @@ const bloodCampSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    organizerAddhar: {
+      type: String,
+    },
     timestamp: {
       type: Date,
       default: Date.now,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const BloodCamp = mongoose.model("BloodCamp", bloodCampSchema);
