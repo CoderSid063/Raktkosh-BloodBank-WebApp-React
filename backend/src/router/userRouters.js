@@ -12,6 +12,7 @@ const {
   updateAccountDetails,
   updateUserAddharImage,
   updateUserAvatar,
+  registerBloodForms,
 } = require("../controller/userController.js");
 const { verifyJWT } = require("../middlewares/auth.middleware.js");
 
@@ -28,6 +29,8 @@ router
   .post(verifyJWT, upload.single("addharImage"), registerBloodCamps);
 
 router.route("/login").post(loginUser);
+
+router.route("/reqblood-donation").post(verifyJWT, registerBloodForms);
 
 //secure routes
 /**

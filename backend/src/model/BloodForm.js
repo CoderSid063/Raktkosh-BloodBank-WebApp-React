@@ -44,6 +44,9 @@ const bloodFormSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    reqPersonAddhar: {
+      type: String,
+    },
     formType: {
       type: String,
       enum: ["bloodDonation", "bloodRequest"],
@@ -54,7 +57,7 @@ const bloodFormSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const BloodForm = mongoose.model("BloodForm", bloodFormSchema);
