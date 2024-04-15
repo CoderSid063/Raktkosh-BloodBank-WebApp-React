@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const bloodCampSchema = new mongoose.Schema(
   {
@@ -29,6 +31,10 @@ const bloodCampSchema = new mongoose.Schema(
     organizerAddhar: {
       type: String,
     },
+    organizer: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     timestamp: {
       type: Date,
       default: Date.now,
@@ -37,6 +43,7 @@ const bloodCampSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+bloodCampSchema.plugin(aggregatePaginate);
 const BloodCamp = mongoose.model("BloodCamp", bloodCampSchema);
 
 module.exports = BloodCamp;
