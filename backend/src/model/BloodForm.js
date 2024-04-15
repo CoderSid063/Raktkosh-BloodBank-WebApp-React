@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const bloodFormSchema = new mongoose.Schema(
   {
@@ -52,6 +54,10 @@ const bloodFormSchema = new mongoose.Schema(
       enum: ["bloodDonation", "bloodRequest"],
       required: true,
     },
+    submittedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     timestamp: {
       type: Date,
       default: Date.now,
@@ -60,6 +66,7 @@ const bloodFormSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+bloodFormSchema.plugin(aggregatePaginate);
 const BloodForm = mongoose.model("BloodForm", bloodFormSchema);
 
 module.exports = BloodForm;
