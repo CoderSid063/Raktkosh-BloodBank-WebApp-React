@@ -19,8 +19,13 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 app.use(cookieParser());
 
+//user Routes :=
 const router = require("./router/userRouters.js");
 
 app.use("/api/v1/users", router);
+
+//public Routes:=
+const bloodRouter = require("./router/bloodManagementRouters.js");
+app.use("/api/v1/public", bloodRouter);
 
 module.exports = { app };

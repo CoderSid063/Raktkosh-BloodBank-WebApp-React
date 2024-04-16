@@ -5,13 +5,56 @@ const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 const User = require("../model/User.js");
 const BloodCamp = require("../model/BloodCamp.js");
 const BloodForm = require("../model/BloodForm.js");
+
+// Endpoint to fetch blood camps data :-
+const getCampData = asyncHandler(async (__, res) => {
+  try {
+    const bloodCamps = await BloodCamp.find();
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, bloodCamps, "Camps data fetched successfully"),
+      );
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json(
+        new ApiError(
+          500,
+          error?.message ||
+            "Error during fetching Bloodcamp data from database",
+        ),
+      );
+  }
+});
+
+//// Endpoint to fetch blood forms data :-
+const getBloodFormData = asyncHandler(async (_, res) => {
+  try {
+    const bloodForms = await BloodForm.find();
+    res
+      .status(200)
+      .json(new ApiResponse(200, bloodForms, "form data fetched successfully"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        new ApiError(
+          500,
+          error?.message || "Error during fetching Forms data from database",
+        ),
+      );
+  }
+});
+
 const registerBloodCamps = asyncHandler(async (req, res) => {
   // Extracting data from the request body
   const {
     organizerName,
     location,
     date,
-    capacity,
+    donorsCapacity,
     contactPerson,
     contactNumber,
     organizerImage,
@@ -24,7 +67,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
       organizerName,
       location,
       date,
-      capacity,
+      donorsCapacity,
       contactPerson,
       contactNumber,
     ].every((field) => field && field.trim() !== "")
@@ -55,7 +98,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
     organizerName,
     location,
     date,
-    capacity,
+    donorsCapacity,
     contactPerson,
     contactNumber,
     organizerAddhar,
@@ -158,4 +201,9 @@ const registerBloodForms = asyncHandler(async (req, res) => {
     );
 });
 
-module.exports = { registerBloodCamps, registerBloodForms };
+module.exports = {
+  registerBloodCamps,
+  registerBloodForms,
+  getCampData,
+  getBloodFormData,
+};

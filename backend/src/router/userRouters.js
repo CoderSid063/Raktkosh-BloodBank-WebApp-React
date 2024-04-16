@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/multer.middleware.js");
+const { verifyJWT } = require("../middlewares/auth.middleware.js");
 const {
   registerUser,
   loginUser,
@@ -13,7 +14,7 @@ const {
   updateUserAvatar,
   getUserProfileDetails,
 } = require("../controller/userController.js");
-const { verifyJWT } = require("../middlewares/auth.middleware.js");
+
 const {
   registerBloodCamps,
   registerBloodForms,
@@ -54,6 +55,7 @@ router
 router
   .route("/addhar-image")
   .patch(verifyJWT, upload.single("addharImage"), updateUserAddharImage);
-module.exports = router;
 
 router.route("/getuserprofile").get(verifyJWT, getUserProfileDetails);
+
+module.exports = router;
