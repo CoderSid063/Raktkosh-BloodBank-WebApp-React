@@ -21,7 +21,6 @@ app.use(cookieParser());
 
 //user Routes :=
 const router = require("./router/userRouters.js");
-
 app.use("/api/v1/users", router);
 
 //public Routes:=

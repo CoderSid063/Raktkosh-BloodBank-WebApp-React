@@ -48,6 +48,7 @@ const getBloodFormData = asyncHandler(async (_, res) => {
   }
 });
 
+// Endpoints to register a blood Camps by register users :-
 const registerBloodCamps = asyncHandler(async (req, res) => {
   // Extracting data from the request body
   const {
@@ -123,6 +124,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
     );
 });
 
+// Endpoints to requst for blood or donate blood by register users :-
 const registerBloodForms = asyncHandler(async (req, res) => {
   // Extracting data from the request body
   const {
