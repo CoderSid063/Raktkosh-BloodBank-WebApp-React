@@ -362,6 +362,93 @@ const updateUserAddharImage = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Addhar image updated successfully"));
 });
 
+const getUserProfileDetails = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+  console.log(userId);
+
+  // Use MongoDB aggregation pipeline to aggregate data from multiple collections
+  const userProfileDetails = await User.aggregate([
+    // Match the user by their ID
+    {
+      $match: { _id: userId },
+    },
+    // Lookup blood camps organized by the user
+    {
+      $lookup: {
+        from: "bloodcamps",
+        localField: "_id",
+        foreignField: "organizer",
+        as: "organizedBloodCamps",
+      },
+    },
+    // Lookup blood forms submitted by the user
+    {
+      $lookup: {
+        from: "bloodforms",
+        let: { userId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$$userId", "$submittedBy"] },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              fullName: 1,
+              bloodGroup: 1,
+              quantity: 1,
+              formType: 1,
+              type: {
+                $cond: {
+                  if: { $eq: ["$formType", "bloodDonation"] },
+                  then: "donation",
+                  else: "request",
+                },
+              },
+            },
+          },
+        ],
+        as: "submittedBloodForms",
+      },
+    },
+    // Add a field to calculate the count of submitted blood forms
+    {
+      $addFields: {
+        submittedBloodFormsCount: { $size: "$submittedBloodForms" },
+      },
+    },
+    // Projection stage to reshape the output
+    {
+      $project: {
+        fullName: 1,
+        email: 1,
+        phoneNumber: 1,
+        submittedBloodForms: 1,
+        organizedBloodCamps: {
+          $size: "$organizedBloodCamps", // Count of organized blood camps
+        },
+        submittedBloodFormsCount: 1, // Include the count of submitted blood forms
+      },
+    },
+  ]);
+  console.log(userProfileDetails);
+  if (!userProfileDetails || userProfileDetails.length === 0) {
+    throw new ApiError(404, "User not found");
+  }
+
+  // Return the user profile details
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        userProfileDetails[0],
+        "User profile details retrieved successfully",
+      ),
+    );
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -372,4 +459,5 @@ module.exports = {
   updateAccountDetails,
   updateUserAvatar,
   updateUserAddharImage,
+  getUserProfileDetails,
 };

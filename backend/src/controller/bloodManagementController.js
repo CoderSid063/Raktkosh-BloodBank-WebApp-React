@@ -41,7 +41,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
     organizerAddhar = await uploadOnCloudinary(organizerAddharLocalPath);
   } else {
     // Retrieve user's Aadhar image from the database
-    const user = await User.findById(req.user._id); // Assuming user is authenticated and user object is available in req.user
+    const user = await User.findById(req.user._id);
     organizerAddhar = user.addharImage;
     console.log(organizerAddhar);
   }
@@ -59,6 +59,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
     contactPerson,
     contactNumber,
     organizerAddhar,
+    organizer: req.user?._id,
   });
 
   //remove addharImage from response :-
@@ -137,6 +138,7 @@ const registerBloodForms = asyncHandler(async (req, res) => {
     pincode,
     reqPersonAddhar,
     formType,
+    submittedBy: req.user?._id,
   });
 
   const createdForm = await BloodForm.findById(bloodForm._id).select(

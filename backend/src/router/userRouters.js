@@ -11,6 +11,7 @@ const {
   updateAccountDetails,
   updateUserAddharImage,
   updateUserAvatar,
+  getUserProfileDetails,
 } = require("../controller/userController.js");
 const { verifyJWT } = require("../middlewares/auth.middleware.js");
 const {
@@ -54,3 +55,5 @@ router
   .route("/addhar-image")
   .patch(verifyJWT, upload.single("addharImage"), updateUserAddharImage);
 module.exports = router;
+
+router.route("/getuserprofile").get(verifyJWT, getUserProfileDetails);
