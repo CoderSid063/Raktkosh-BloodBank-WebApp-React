@@ -1,5 +1,17 @@
+import { useSelector } from "react-redux";
+import CampCard from "../components/CampCard";
+import "../styles/campCards.css";
 const BloodCamps = () => {
-  return <div className="container">BloodCamps</div>;
+  const camps = useSelector((store) => store.camps);
+  return (
+    <>
+      <div>
+        {camps.map((camps) => (
+          <CampCard key={camps._id} camps={camps} />
+        ))}
+      </div>
+    </>
+  );
 };
 
 export default BloodCamps;

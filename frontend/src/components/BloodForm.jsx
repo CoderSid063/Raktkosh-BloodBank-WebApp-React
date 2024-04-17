@@ -1,10 +1,25 @@
 import PropTypes from "prop-types";
+import { useRef } from "react";
 
 const BloodForm = ({ formName }) => {
+  const formRef = useRef(null);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(formRef.current);
+    const formValues = Object.fromEntries(formData.entries());
+    console.log("Form Values:", formValues);
+    // Add logic to handle form submission here
+  };
   console.log(formName);
   return (
     <div>
-      <form className="row g-3 m-3" action="/BloodRequest" method="POST">
+      <form
+        className="row g-3 m-3"
+        action="/BloodRequest"
+        method="POST"
+        ref={formRef}
+        onSubmit={handleSubmit}
+      >
         <div className="col-md-12 text-center text-light mt-2">
           <h3 className="overflow-y-hidden" style={{ color: "red" }}>
             {`${formName} Form`}
@@ -104,7 +119,7 @@ const BloodForm = ({ formName }) => {
             Quantity
           </label>
           <select id="inputState" className="form-select" name="Quantity">
-            <option selected>1</option>
+            <option value={1}>1</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
@@ -129,7 +144,7 @@ const BloodForm = ({ formName }) => {
             District
           </label>
           <select id="inputState" className="form-select" name="District">
-            <option selected></option>
+            <option></option>
             <option>Angul</option>
             <option>Balangir</option>
             <option>Baleshwar</option>

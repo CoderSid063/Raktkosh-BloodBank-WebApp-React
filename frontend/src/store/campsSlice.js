@@ -5,8 +5,7 @@ const campsSlice = createSlice({
   initialState: [],
   reducers: {
     addInitialItems: (state, action) => {
-      console.log(action);
-      return action.payload;
+      return action.payload.data;
     },
   },
 });
