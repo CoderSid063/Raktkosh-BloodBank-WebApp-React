@@ -1,7 +1,7 @@
 const BloodCampReg = () => {
   return (
     <div>
-      <form className="row g-3 m-3" action="/campRegister" method="POST">
+      <form className="row g-3 m-3">
         <div className="col-md-12 text-center text-light mt-2">
           <h3 className="overflow-y-hidden" style={{ color: "red" }}>
             Camp Registration

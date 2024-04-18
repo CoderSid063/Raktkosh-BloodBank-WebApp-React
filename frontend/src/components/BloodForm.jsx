@@ -3,28 +3,36 @@ import { useRef } from "react";
 
 const BloodForm = ({ formName }) => {
   const formRef = useRef(null);
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(formRef.current);
     const formValues = Object.fromEntries(formData.entries());
     console.log("Form Values:", formValues);
-    // Add logic to handle form submission here
+
+    const response = await fetch(
+      `http://localhost:5000/api/v1/users/reqblood-donation`,
+      {
+        method: "POST",
+        body: JSON.stringify(formValues),
+      }
+    );
+
+    console.log(response);
   };
-  console.log(formName);
+  // Determine form type based on formName prop
+  const formType =
+    formName === "bloodDonation" ? "bloodDonation" : "bloodRequest";
   return (
     <div>
-      <form
-        className="row g-3 m-3"
-        action="/BloodRequest"
-        method="POST"
-        ref={formRef}
-        onSubmit={handleSubmit}
-      >
+      <form className="row g-3 m-3" ref={formRef} onSubmit={handleSubmit}>
         <div className="col-md-12 text-center text-light mt-2">
           <h3 className="overflow-y-hidden" style={{ color: "red" }}>
             {`${formName} Form`}
           </h3>
         </div>
+        <input type="hidden" name="formType" value={formType} />{" "}
+        {/* Add hidden input for formType */}
         <div className="col-md-12">
           <input
             type="text"
@@ -58,7 +66,6 @@ const BloodForm = ({ formName }) => {
             name="MobileNo"
           />
         </div>
-
         <div className="col-md-3">
           <label htmlFor="gender" className="form-label">
             Gender
@@ -113,7 +120,6 @@ const BloodForm = ({ formName }) => {
             <option value="AB-">AB-</option>
           </select>
         </div>
-
         <div className="col-md-3">
           <label htmlFor="dob" className="form-label">
             Quantity
@@ -126,7 +132,6 @@ const BloodForm = ({ formName }) => {
             <option>5</option>
           </select>
         </div>
-
         <div className="col-12">
           <label htmlFor="inputAddress" className="form-label">
             Address

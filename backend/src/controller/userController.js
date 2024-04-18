@@ -47,11 +47,12 @@ const registerUser = asyncHandler(async (req, res) => {
     dateOfBirth,
     address,
   } = req.body;
+  console.log(req.body);
 
   //validation check :-
   if (
-    ![fullName, email, phoneNumber, password].every(
-      (field) => field && field.trim() !== "",
+    ![fullName, email, phoneNumber, password].some(
+      (field) => field?.trim() === "",
     )
   ) {
     throw new ApiError(400, "All fields are required");
@@ -260,15 +261,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const { newPassword, confirmPassword } = req.body;
 
   const user = await User.findById(req.user?._id);
-
-  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
-
-  if (!isPasswordCorrect) {
-    throw new ApiError(400, "Invalid old password");
-  }
 
   if (!(newPassword === confirmPassword)) {
     throw new ApiError(401, "Both passord must be same");
