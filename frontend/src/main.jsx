@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,6 +13,10 @@ import BloodAvailable from "./routes/BloodAvailable.jsx";
 import DonorRgister from "./routes/DonorRgister.jsx";
 import BloodCampReg from "./routes/BloodCampReg.jsx";
 import BloodCamps from "./routes/BloodCamps.jsx";
+import { Provider } from "react-redux";
+import raktkoshStore from "./store/store.js";
+import { ChangePassword } from "./routes/ChangePassword.jsx";
+import RegisterForm from "./routes/RegisterForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,33 +24,23 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
+      { path: "/", element: <Home /> },
       { path: "/aboutus", element: <AboutUs /> },
       { path: "/contactus", element: <ContactUs /> },
       { path: "/login", element: <Login /> },
       { path: "/bloodavailable", element: <BloodAvailable /> },
-      {
-        path: "/searchCamp",
-        element: <BloodCamps />,
-      },
-      {
-        path: "/RegisterCamp",
-        element: <BloodCampReg />,
-      },
+      { path: "/searchCamp", element: <BloodCamps /> },
+      { path: "/RegisterCamp", element: <BloodCampReg /> },
       { path: "/donerRegister", element: <DonorRgister /> },
-      {
-        path: "/bloodrequest",
-        element: <BloodRequest />,
-      },
+      { path: "/bloodrequest", element: <BloodRequest /> },
+      { path: "/login/changePassword", element: <ChangePassword /> },
+      { path: "/login/register", element: <RegisterForm /> },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <Provider store={raktkoshStore}>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </Provider>
 );

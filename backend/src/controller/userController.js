@@ -4,8 +4,6 @@ const { ApiResponse } = require("../utils/ApiResponse.js");
 const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User.js");
-const BloodCamp = require("../model/BloodCamp.js");
-const BloodForm = require("../model/BloodForm.js");
 
 // this method for generate access and refresh token
 const tokenGenerator = async (userId) => {
@@ -49,11 +47,12 @@ const registerUser = asyncHandler(async (req, res) => {
     dateOfBirth,
     address,
   } = req.body;
+  console.log(req.body);
 
   //validation check :-
   if (
-    ![fullName, email, phoneNumber, password].every(
-      (field) => field && field.trim() !== "",
+    ![fullName, email, phoneNumber, password].some(
+      (field) => field?.trim() === "",
     )
   ) {
     throw new ApiError(400, "All fields are required");
@@ -125,157 +124,6 @@ const registerUser = asyncHandler(async (req, res) => {
   return res
     .status(201)
     .json(new ApiResponse(200, createdUser, "User registered succesfully"));
-});
-
-const registerBloodCamps = asyncHandler(async (req, res) => {
-  // Extracting data from the request body
-  const {
-    organizerName,
-    location,
-    date,
-    capacity,
-    contactPerson,
-    contactNumber,
-    organizerImage,
-  } = req.body;
-  console.log(req.body);
-
-  // Validation check
-  if (
-    ![
-      organizerName,
-      location,
-      date,
-      capacity,
-      contactPerson,
-      contactNumber,
-    ].every((field) => field && field.trim() !== "")
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
-
-  let organizerAddhar;
-
-  // Check if the user provided a new Aadhar image for the blood camp
-  if (organizerImage) {
-    // Use the new Aadhar image provided in the request
-    const organizerAddharLocalPath = req.files?.organizerAddhar[0]?.path;
-    organizerAddhar = await uploadOnCloudinary(organizerAddharLocalPath);
-  } else {
-    // Retrieve user's Aadhar image from the database
-    const user = await User.findById(req.user._id); // Assuming user is authenticated and user object is available in req.user
-    organizerAddhar = user.addharImage;
-    console.log(organizerAddhar);
-  }
-
-  if (!organizerAddhar) {
-    throw new ApiError(400, "addharImage required");
-  }
-
-  // Create blood camp object
-  const bloodCamp = await BloodCamp.create({
-    organizerName,
-    location,
-    date,
-    capacity,
-    contactPerson,
-    contactNumber,
-    organizerAddhar,
-  });
-
-  //remove addharImage from response :-
-  const createdCamp = await BloodCamp.findById(bloodCamp._id).select(
-    "-organizerAddhar",
-  );
-
-  //check for bloodCamp creation :-
-  if (!createdCamp) {
-    throw new ApiError(500, "Error while registering the bloodcamp");
-  }
-
-  // Return success response
-  return res
-    .status(201)
-    .json(
-      new ApiResponse(200, createdCamp, "Blood camp registered successfully"),
-    );
-});
-
-const registerBloodForms = asyncHandler(async (req, res) => {
-  // Extracting data from the request body
-  const {
-    fullName,
-    email,
-    mobileNo,
-    gender,
-    age,
-    bloodGroup,
-    quantity,
-    address,
-    district,
-    pincode,
-    formType,
-    reqPersonImage,
-  } = req.body;
-
-  // Validation check
-  if (
-    ![fullName, mobileNo, bloodGroup, pincode, formType].every(
-      (field) => field && field.trim() !== "",
-    )
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
-
-  let reqPersonAddhar;
-
-  // Check if the user provided a new Aadhar image for the blood camp
-  if (reqPersonImage) {
-    // Use the new Aadhar image provided in the request
-    const reqPersonAddharLocalPath = req.files?.reqPersonAddhar[0]?.path;
-    reqPersonAddhar = await uploadOnCloudinary(reqPersonAddharLocalPath);
-  } else {
-    // Retrieve user's Aadhar image from the database
-    const user = await User.findById(req.user._id); // Assuming user is authenticated and user object is available in req.user
-    reqPersonAddhar = user.addharImage;
-    console.log(reqPersonAddhar);
-  }
-
-  if (!reqPersonAddhar) {
-    throw new ApiError(400, "addharImage required");
-  }
-
-  // Create blood form object
-  const bloodForm = await BloodForm.create({
-    fullName,
-    email,
-    mobileNo,
-    gender,
-    age,
-    bloodGroup,
-    quantity,
-    address,
-    district,
-    pincode,
-    reqPersonAddhar,
-    formType,
-  });
-
-  const createdForm = await BloodForm.findById(bloodForm._id).select(
-    "-reqPersonAddhar -district -gender",
-  );
-
-  // Check for blood form creation
-  if (!createdForm) {
-    throw new ApiError(500, "Error while registering the blood form");
-  }
-
-  // Return success response
-  return res
-    .status(201)
-    .json(
-      new ApiResponse(200, createdForm, "Blood form registered successfully"),
-    );
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -413,15 +261,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const { newPassword, confirmPassword } = req.body;
 
   const user = await User.findById(req.user?._id);
-
-  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
-
-  if (!isPasswordCorrect) {
-    throw new ApiError(400, "Invalid old password");
-  }
 
   if (!(newPassword === confirmPassword)) {
     throw new ApiError(401, "Both passord must be same");
@@ -515,10 +357,95 @@ const updateUserAddharImage = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Addhar image updated successfully"));
 });
 
+const getUserProfileDetails = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+  console.log(userId);
+
+  // Use MongoDB aggregation pipeline to aggregate data from multiple collections
+  const userProfileDetails = await User.aggregate([
+    // Match the user by their ID
+    {
+      $match: { _id: userId },
+    },
+    // Lookup blood camps organized by the user
+    {
+      $lookup: {
+        from: "bloodcamps",
+        localField: "_id",
+        foreignField: "organizer",
+        as: "organizedBloodCamps",
+      },
+    },
+    // Lookup blood forms submitted by the user
+    {
+      $lookup: {
+        from: "bloodforms",
+        let: { userId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$$userId", "$submittedBy"] },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              fullName: 1,
+              bloodGroup: 1,
+              quantity: 1,
+              formType: 1,
+              type: {
+                $cond: {
+                  if: { $eq: ["$formType", "bloodDonation"] },
+                  then: "donation",
+                  else: "request",
+                },
+              },
+            },
+          },
+        ],
+        as: "submittedBloodForms",
+      },
+    },
+    // Add a field to calculate the count of submitted blood forms
+    {
+      $addFields: {
+        submittedBloodFormsCount: { $size: "$submittedBloodForms" },
+      },
+    },
+    // Projection stage to reshape the output
+    {
+      $project: {
+        fullName: 1,
+        email: 1,
+        phoneNumber: 1,
+        submittedBloodForms: 1,
+        organizedBloodCamps: {
+          $size: "$organizedBloodCamps", // Count of organized blood camps
+        },
+        submittedBloodFormsCount: 1, // Include the count of submitted blood forms
+      },
+    },
+  ]);
+  console.log(userProfileDetails);
+  if (!userProfileDetails || userProfileDetails.length === 0) {
+    throw new ApiError(404, "User not found");
+  }
+
+  // Return the user profile details
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        userProfileDetails[0],
+        "User profile details retrieved successfully",
+      ),
+    );
+});
+
 module.exports = {
   registerUser,
-  registerBloodCamps,
-  registerBloodForms,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -527,4 +454,5 @@ module.exports = {
   updateAccountDetails,
   updateUserAvatar,
   updateUserAddharImage,
+  getUserProfileDetails,
 };

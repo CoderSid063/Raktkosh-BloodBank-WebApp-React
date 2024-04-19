@@ -1,6 +1,6 @@
-import "./campCards.css";
+import "../styles/campCards.css";
 const CampCard = () => {
-  return <div>CampCard</div>;
+  return <div></div>;
 };
 
 export default CampCard;

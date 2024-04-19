@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/multer.middleware.js");
+const { verifyJWT } = require("../middlewares/auth.middleware.js");
 const {
   registerUser,
-  registerBloodCamps,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -12,9 +12,13 @@ const {
   updateAccountDetails,
   updateUserAddharImage,
   updateUserAvatar,
-  registerBloodForms,
+  getUserProfileDetails,
 } = require("../controller/userController.js");
-const { verifyJWT } = require("../middlewares/auth.middleware.js");
+
+const {
+  registerBloodCamps,
+  registerBloodForms,
+} = require("../controller/bloodManagementController.js");
 
 router.route("/register").post(
   upload.fields([
@@ -51,4 +55,7 @@ router
 router
   .route("/addhar-image")
   .patch(verifyJWT, upload.single("addharImage"), updateUserAddharImage);
+
+router.route("/getuserprofile").get(verifyJWT, getUserProfileDetails);
+
 module.exports = router;
