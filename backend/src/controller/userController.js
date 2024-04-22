@@ -51,8 +51,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //validation check :-
   if (
-    ![fullName, email, phoneNumber, password].some(
-      (field) => field?.trim() === "",
+    ![fullName, email, phoneNumber, password].every(
+      (field) => field && field.trim() !== "",
     )
   ) {
     throw new ApiError(400, "All fields are required");
@@ -68,21 +68,13 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
+  console.log(avatarLocalPath);
   const addharImageLocalPath = req.files?.addharImage[0]?.path;
-
-  // let addhaarImageLocalPath;
-  // if (
-  //   req.files &&
-  //   Array.isArray(req.files.addharImage) &&
-  //   req.files.addharImage.length > 0
-  // ) {
-  //   addharImageLocalPath = req.files.addharImage[0].path;
-  // }
-  //console.log(req.files);
+  console.log(addharImageLocalPath);
 
   //check for image , check for avatar :-
   if (!avatarLocalPath) {
-    throw new ApiError(400, "avatar required");
+    throw new ApiError(400, "avatar path required");
   }
 
   if (!addharImageLocalPath) {
@@ -109,7 +101,7 @@ const registerUser = asyncHandler(async (req, res) => {
     dateOfBirth,
     address,
   });
-
+  console.log(user);
   //remove password and refresh token from response :-
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken",

@@ -2,10 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [loginFormData, setLoginFormData] = useState({
-    emailOrPhone: "",
+    emailOrPhoneNumber: "",
     password: "",
   });
 
@@ -19,19 +22,23 @@ const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/users/login",
         loginFormData
       );
       console.log(response);
-      console.log(response.data);
-      // Reset form after submission
-      setLoginFormData({
-        emailOrPhone: "",
-        password: "",
-      });
+
+      if (response.statusText === "OK") {
+        console.log("after login: ", response.data);
+        // Reset form after submission
+        setLoginFormData({
+          emailOrPhoneNumber: "",
+          password: "",
+        });
+
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -45,7 +52,7 @@ const Login = () => {
           <div className="input_box">
             <input
               type="text"
-              name="emailOrPhone"
+              name="email"
               value={loginFormData.emailOrPhone}
               onChange={handleLoginInputChange}
               placeholder="Enter Email or Phone No"

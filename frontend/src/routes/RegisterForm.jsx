@@ -1,63 +1,64 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phoneNumber: "",
     password: "",
-    gender: "",
+    gender: "male",
     dateOfBirth: "",
     address: "",
     avatar: null,
     addharImage: null,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files[0],
-    });
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+    const newValue = files ? files[0] : value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
-      // Send formData to backend for registration
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataToSend.append(key, value);
+      });
+      console.log(formDataToSend);
       const response = await fetch(
         "http://localhost:5000/api/v1/users/register",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
       console.log(response);
 
       // Reset form after submission
-      setFormData({
-        fullName: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        gender: "",
-        dateOfBirth: "",
-        address: "",
-        avatar: null,
-        addharImage: null,
-      });
+      if (response.ok) {
+        alert("registration successful");
+        setFormData({
+          fullName: "",
+          email: "",
+          phoneNumber: "",
+          password: "",
+          gender: "",
+          dateOfBirth: "",
+          address: "",
+          avatar: null,
+          addharImage: null,
+        });
+        navigate("/login");
+      } else {
+        console.log("error inside response ", "error");
+      }
     } catch (error) {
       console.error("Error registering user:", error);
     }
@@ -71,7 +72,7 @@ const RegisterForm = () => {
           type="text"
           name="fullName"
           value={formData.fullName}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
       </label>
@@ -81,7 +82,7 @@ const RegisterForm = () => {
           type="email"
           name="email"
           value={formData.email}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
       </label>
@@ -91,7 +92,7 @@ const RegisterForm = () => {
           type="text"
           name="phoneNumber"
           value={formData.phoneNumber}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
       </label>
@@ -101,7 +102,7 @@ const RegisterForm = () => {
           type="password"
           name="password"
           value={formData.password}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
       </label>
@@ -110,7 +111,7 @@ const RegisterForm = () => {
         <select
           name="gender"
           value={formData.gender}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         >
           <option value="male">Male</option>
@@ -124,7 +125,7 @@ const RegisterForm = () => {
           type="date"
           name="dateOfBirth"
           value={formData.dateOfBirth}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
       </label>
@@ -133,17 +134,17 @@ const RegisterForm = () => {
         <textarea
           name="address"
           value={formData.address}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         ></textarea>
       </label>
       <label>
         Avatar:
-        <input type="file" name="avatar" onChange={handleFileChange} />
+        <input type="file" name="avatar" onChange={handleInputChange} />
       </label>
       <label>
         Aadhar Image:
-        <input type="file" name="addharImage" onChange={handleFileChange} />
+        <input type="file" name="addharImage" onChange={handleInputChange} />
       </label>
       <button type="submit">Register</button>
     </form>
