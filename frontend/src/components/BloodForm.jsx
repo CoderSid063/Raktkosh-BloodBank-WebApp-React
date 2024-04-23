@@ -150,14 +150,36 @@ const BloodForm = ({ formName }) => {
           </label>
           <select id="inputState" className="form-select" name="District">
             <option></option>
-            <option>Angul</option>
-            <option>Balangir</option>
-            <option>Baleshwar</option>
-            <option>Bargarh</option>
-            <option>Baudh</option>
-            <option>Bhadrak</option>
-            <option>Cuttack</option>
-            <option>Dhenkanal</option>
+            <option value="Angul">Angul</option>
+            <option value="Balangir">Balangir</option>
+            <option value="Balasore">Balasore</option>
+            <option value="Bargarh">Bargarh</option>
+            <option value="Bhadrak">Bhadrak</option>
+            <option value="Boudh">Boudh</option>
+            <option value="Cuttack">Cuttack</option>
+            <option value="Deogarh">Deogarh</option>
+            <option value="Dhenkanal">Dhenkanal</option>
+            <option value="Gajapati">Gajapati</option>
+            <option value="Ganjam">Ganjam</option>
+            <option value="Jagatsinghpur">Jagatsinghpur</option>
+            <option value="Jajpur">Jajpur</option>
+            <option value="Jharsuguda">Jharsuguda</option>
+            <option value="Kalahandi">Kalahandi</option>
+            <option value="Kandhamal">Kandhamal</option>
+            <option value="Kendrapara">Kendrapara</option>
+            <option value="Kendujhar">Kendujhar</option>
+            <option value="Khordha">Khordha</option>
+            <option value="Koraput">Koraput</option>
+            <option value="Malkangiri">Malkangiri</option>
+            <option value="Mayurbhanj">Mayurbhanj</option>
+            <option value="Nabarangpur">Nabarangpur</option>
+            <option value="Nayagarh">Nayagarh</option>
+            <option value="Nuapada">Nuapada</option>
+            <option value="Puri">Puri</option>
+            <option value="Rayagada">Rayagada</option>
+            <option value="Sambalpur">Sambalpur</option>
+            <option value="Sonepur">Sonepur</option>
+            <option value="Sundargarh">Sundargarh</option>
           </select>
         </div>
         <div className="col-md-2">

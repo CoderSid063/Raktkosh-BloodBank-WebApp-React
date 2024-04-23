@@ -26,5 +26,6 @@ app.use("/api/v1/users", router);
 //public Routes:=
 const bloodRouter = require("./router/bloodManagementRouters.js");
 app.use("/api/v1/public", bloodRouter);
+app.use("/api/v1/user", bloodRouter);
 
 module.exports = { app };

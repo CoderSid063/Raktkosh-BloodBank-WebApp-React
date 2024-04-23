@@ -60,9 +60,10 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
     contactNumber,
     organizerImage,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   // Validation check
+  /*
   if (
     ![
       organizerName,
@@ -75,7 +76,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, "All fields are required");
   }
-
+*/
   let organizerAddhar;
 
   // Check if the user provided a new Aadhar image for the blood camp

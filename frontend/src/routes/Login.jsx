@@ -3,12 +3,16 @@ import axios from "axios";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/authSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [loginFormData, setLoginFormData] = useState({
-    emailOrPhoneNumber: "",
+    email: "",
+    phoneNumber: "",
     password: "",
   });
 
@@ -27,17 +31,34 @@ const Login = () => {
         "http://localhost:5000/api/v1/users/login",
         loginFormData
       );
+
       console.log(response);
 
-      if (response.statusText === "OK") {
-        console.log("after login: ", response.data);
+      if (response.status === 200) {
+        const responseData = response.data;
+        const { data } = responseData;
+        const { accessToken, refreshToken } = data;
+        // console.log(data);
+        // console.log(data.accessToken);
+        // console.log(data.refreshToken);
+
+        //sending tokens to redux store :-
+        dispatch(authActions.setTokens({ accessToken, refreshToken }));
+
+        // set token in localStorage:-
+
+        // localStorage.setItem("accessToken", accessToken);
+        // localStorage.setItem("refreshToken", refreshToken);
         // Reset form after submission
         setLoginFormData({
-          emailOrPhoneNumber: "",
+          email: "",
+          phoneNumber: "",
           password: "",
         });
 
         navigate("/");
+      } else {
+        console.error("Error logging in:", response.data.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -53,10 +74,19 @@ const Login = () => {
             <input
               type="text"
               name="email"
-              value={loginFormData.emailOrPhone}
+              value={loginFormData.email}
               onChange={handleLoginInputChange}
-              placeholder="Enter Email or Phone No"
-              required
+              placeholder="Enter Email-ID"
+            />
+            <div className="line"></div>
+          </div>
+          <div className="input_box">
+            <input
+              type="text"
+              name="phoneNumber"
+              value={loginFormData.phoneNumber}
+              onChange={handleLoginInputChange}
+              placeholder="Enter Phone No"
             />
             <div className="line"></div>
           </div>

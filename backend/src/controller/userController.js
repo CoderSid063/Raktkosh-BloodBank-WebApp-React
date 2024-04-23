@@ -47,7 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
     dateOfBirth,
     address,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   //validation check :-
   if (
@@ -68,9 +68,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  console.log(avatarLocalPath);
+  // console.log(avatarLocalPath);
   const addharImageLocalPath = req.files?.addharImage[0]?.path;
-  console.log(addharImageLocalPath);
+  // console.log(addharImageLocalPath);
 
   //check for image , check for avatar :-
   if (!avatarLocalPath) {
@@ -156,7 +156,6 @@ const loginUser = asyncHandler(async (req, res) => {
   //options for cokkies:-
   const options = {
     httpOnly: true,
-    secure: true,
   };
 
   return res

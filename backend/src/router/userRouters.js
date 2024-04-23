@@ -15,11 +15,6 @@ const {
   getUserProfileDetails,
 } = require("../controller/userController.js");
 
-const {
-  registerBloodCamps,
-  registerBloodForms,
-} = require("../controller/bloodManagementController.js");
-
 router.route("/register").post(
   upload.fields([
     { name: "avatar", maxCount: 1 },
@@ -27,14 +22,7 @@ router.route("/register").post(
   ]),
   registerUser,
 );
-
-router
-  .route("/register-camps")
-  .post(verifyJWT, upload.single("addharImage"), registerBloodCamps);
-
 router.route("/login").post(loginUser);
-
-router.route("/reqblood-donation").post(verifyJWT, registerBloodForms);
 
 //secure routes
 /**
