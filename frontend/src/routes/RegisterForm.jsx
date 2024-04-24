@@ -39,7 +39,7 @@ const RegisterForm = () => {
           body: formDataToSend,
         }
       );
-      console.log(response);
+      // console.log(response);
 
       // Reset form after submission
       if (response.ok) {

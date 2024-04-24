@@ -1,7 +1,7 @@
 import BloodForm from "../components/BloodForm";
 
 const BloodRequest = () => {
-  const formName = "Blood Request";
+  const formName = "Bloodrequest";
   return (
     <div>
       <BloodForm formName={formName} />

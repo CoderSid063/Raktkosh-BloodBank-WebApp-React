@@ -51,7 +51,7 @@ const bloodFormSchema = new mongoose.Schema(
     },
     formType: {
       type: String,
-      enum: ["bloodDonation", "bloodRequest"],
+      enum: ["DonateBlood", "Bloodrequest"],
       required: true,
     },
     submittedBy: {

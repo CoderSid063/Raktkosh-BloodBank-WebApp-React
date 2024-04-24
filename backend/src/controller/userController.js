@@ -26,18 +26,6 @@ const tokenGenerator = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  /**
-   * check files are uploaded from frontend {file:userRoutes}
-   * validation check
-   * check user already exist: email
-   * check for image , check for avatar
-   * upload the file in cloudnary
-   * create user object- create entry in db
-   * remove password and refresh token from response
-   * check for user creation
-   * return response
-   */
-
   const {
     fullName,
     email,
@@ -101,7 +89,7 @@ const registerUser = asyncHandler(async (req, res) => {
     dateOfBirth,
     address,
   });
-  console.log(user);
+  // console.log(user);
   //remove password and refresh token from response :-
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken",
@@ -121,7 +109,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   //data from req.body:-
   const { email, phoneNumber, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   //login with either username or email :-
   if (!(phoneNumber || email)) {
@@ -132,7 +120,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({
     $or: [{ email }, { phoneNumber }],
   });
-  console.log(user);
+  // console.log(user);
   if (!user) {
     throw new ApiError(404, "user not exist");
   }

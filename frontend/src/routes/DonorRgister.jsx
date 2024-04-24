@@ -2,7 +2,7 @@ import BloodForm from "../components/BloodForm";
 import "../styles/donorRegister.css";
 
 const DonorRgister = () => {
-  const formName = "Donor Registration";
+  const formName = "DonateBlood";
   return (
     <div>
       <BloodForm formName={formName} />

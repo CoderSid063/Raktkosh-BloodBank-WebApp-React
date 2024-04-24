@@ -1,34 +1,51 @@
 import PropTypes from "prop-types";
 import { useRef } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const BloodForm = ({ formName }) => {
+  const token = useSelector((store) => store.auth.accessToken);
   const formRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(formRef.current);
     const formValues = Object.fromEntries(formData.entries());
-    console.log("Form Values:", formValues);
+    // console.log("Form Values:", formValues);
 
-    const response = await fetch(
-      `http://localhost:5000/api/v1/users/reqblood-donation`,
-      {
-        method: "POST",
-        body: JSON.stringify(formValues),
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/user/reqblood-donation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formValues),
+        }
+      );
+
+      console.log(response);
+      if (response.status === 201) {
+        alert(`${formValues.fullName} your ${formName} form created`);
+        navigate("/");
+      } else {
+        throw new Error("Error registering blood camp");
       }
-    );
-
-    console.log(response);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
   // Determine form type based on formName prop
-  const formType =
-    formName === "bloodDonation" ? "bloodDonation" : "bloodRequest";
+  const formType = formName === "DonateBlood" ? "DonateBlood" : "Bloodrequest";
   return (
     <div>
       <form className="row g-3 m-3" ref={formRef} onSubmit={handleSubmit}>
         <div className="col-md-12 text-center text-light mt-2">
           <h3 className="overflow-y-hidden" style={{ color: "red" }}>
-            {`${formName} Form`}
+            {`${formName} Registraction Form`}
           </h3>
         </div>
         <input type="hidden" name="formType" value={formType} />{" "}
@@ -39,7 +56,7 @@ const BloodForm = ({ formName }) => {
             className="form-control"
             placeholder="Patient Full name"
             aria-label="Name"
-            name="Name"
+            name="fullName"
           />
         </div>
         <div className="col-md-6">
@@ -50,7 +67,7 @@ const BloodForm = ({ formName }) => {
             type="email"
             className="form-control"
             id="inputEmail4"
-            name="Email"
+            name="email"
           />
         </div>
         <div className="col-md-6">
@@ -63,7 +80,7 @@ const BloodForm = ({ formName }) => {
             maxLength="10"
             className="form-control"
             id="inputphone4"
-            name="MobileNo"
+            name="mobileNo"
           />
         </div>
         <div className="col-md-3">
@@ -93,7 +110,7 @@ const BloodForm = ({ formName }) => {
             type="number"
             className="form-control"
             id="inputZip"
-            name="Age"
+            name="age"
           />
         </div>
         <div className="col-md-3">
@@ -124,7 +141,7 @@ const BloodForm = ({ formName }) => {
           <label htmlFor="dob" className="form-label">
             Quantity
           </label>
-          <select id="inputState" className="form-select" name="Quantity">
+          <select id="inputState" className="form-select" name="quantity">
             <option value={1}>1</option>
             <option>2</option>
             <option>3</option>
@@ -141,14 +158,14 @@ const BloodForm = ({ formName }) => {
             className="form-control"
             id="inputAddress"
             placeholder="1234 Main St"
-            name="Address"
+            name="address"
           />
         </div>
         <div className="col-md-4">
           <label htmlFor="inputState" className="form-label">
             District
           </label>
-          <select id="inputState" className="form-select" name="District">
+          <select id="inputState" className="form-select" name="district">
             <option></option>
             <option value="Angul">Angul</option>
             <option value="Balangir">Balangir</option>
@@ -190,7 +207,7 @@ const BloodForm = ({ formName }) => {
             type="text"
             className="form-control"
             id="inputZip"
-            name="Pincode"
+            name="pincode"
           />
         </div>
         <div className="col-12">

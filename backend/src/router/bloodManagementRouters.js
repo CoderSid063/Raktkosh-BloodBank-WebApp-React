@@ -16,6 +16,6 @@ router
 
 router.route("/reqblood-donation").post(verifyJWT, registerBloodForms);
 router.route("/blood-camps").get(getCampData);
-router.route("/blood-forms").get(getBloodFormData);
+router.route("/reqblood-donation").get(getBloodFormData);
 
 module.exports = router;

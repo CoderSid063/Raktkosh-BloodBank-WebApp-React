@@ -88,7 +88,7 @@ const registerBloodCamps = asyncHandler(async (req, res) => {
     // Retrieve user's Aadhar image from the database
     const user = await User.findById(req.user._id);
     organizerAddhar = user.addharImage;
-    console.log(organizerAddhar);
+    // console.log(organizerAddhar);
   }
 
   if (!organizerAddhar) {
@@ -142,8 +142,10 @@ const registerBloodForms = asyncHandler(async (req, res) => {
     formType,
     reqPersonImage,
   } = req.body;
+  // console.log(req.body);
 
   // Validation check
+
   if (
     ![fullName, mobileNo, bloodGroup, pincode, formType].every(
       (field) => field && field.trim() !== "",
@@ -163,7 +165,7 @@ const registerBloodForms = asyncHandler(async (req, res) => {
     // Retrieve user's Aadhar image from the database
     const user = await User.findById(req.user._id); // Assuming user is authenticated and user object is available in req.user
     reqPersonAddhar = user.addharImage;
-    console.log(reqPersonAddhar);
+    // console.log(reqPersonAddhar);
   }
 
   if (!reqPersonAddhar) {
