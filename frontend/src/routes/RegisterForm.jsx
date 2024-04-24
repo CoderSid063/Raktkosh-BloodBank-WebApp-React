@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -96,16 +105,25 @@ const RegisterForm = () => {
           required
         />
       </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-        />
-      </label>
+      <div>
+        <label>
+          Password:
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+          />
+          <div
+            className="password-toggle"
+            onClick={handleTogglePasswordVisibility}
+          >
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+          </div>
+        </label>
+      </div>
+
       <label>
         Gender:
         <select

@@ -27,13 +27,15 @@ const BloodForm = ({ formName }) => {
         }
       );
 
-      console.log(response);
-      if (response.status === 201) {
+      if (response.status === 401) {
+        alert("Please Login Before register for BloodCamp");
+        navigate("/login");
+      } else {
         alert(`${formValues.fullName} your ${formName} form created`);
         navigate("/");
-      } else {
-        throw new Error("Error registering blood camp");
       }
+
+      console.log(response);
     } catch (error) {
       console.error(error.message);
     }

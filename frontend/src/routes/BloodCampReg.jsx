@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const BloodCampReg = () => {
+  const navigate = useNavigate();
   const token = useSelector((store) => store.auth.accessToken);
   const [formData, setFormData] = useState({
     organizerName: "",
@@ -32,12 +34,16 @@ const BloodCampReg = () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Error registering blood camp");
+      if (response.status === 401) {
+        alert("Please Login Before register for BloodCamp");
+        navigate("/login");
+      } else {
+        alert("Camp Register Successfully");
+        navigate("/");
       }
 
       const data = await response.json();
-      console.log(data); // Handle success response
+      console.log(data);
     } catch (error) {
       console.error(error.message); // Handle error
     }

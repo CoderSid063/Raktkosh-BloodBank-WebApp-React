@@ -5,11 +5,18 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/authSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     phoneNumber: "",
@@ -31,7 +38,6 @@ const Login = () => {
         "http://localhost:5000/api/v1/users/login",
         loginFormData
       );
-
       console.log(response);
 
       if (response.status === 200) {
@@ -58,7 +64,7 @@ const Login = () => {
 
         navigate("/");
       } else {
-        console.error("Error logging in:", response.data.message);
+        console.error("Error logging in:", response.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -92,13 +98,19 @@ const Login = () => {
           </div>
           <div className="input_box">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={loginFormData.password}
               onChange={handleLoginInputChange}
               placeholder="Enter Password"
               required
             />
+            <div
+              className="password-toggle"
+              onClick={handleTogglePasswordVisibility}
+            >
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </div>
             <div className="line"></div>
           </div>
 
