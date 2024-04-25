@@ -4,6 +4,8 @@ const { ApiResponse } = require("../utils/ApiResponse.js");
 const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User.js");
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Types;
 
 // this method for generate access and refresh token
 const tokenGenerator = async (userId) => {
@@ -335,14 +337,14 @@ const updateUserAddharImage = asyncHandler(async (req, res) => {
 });
 
 const getUserProfileDetails = asyncHandler(async (req, res) => {
-  const userId = req.user?._id;
-  console.log(userId);
+  const userId = req.query.userId;
+  // console.log(userId);
 
   // Use MongoDB aggregation pipeline to aggregate data from multiple collections
   const userProfileDetails = await User.aggregate([
     // Match the user by their ID
     {
-      $match: { _id: userId },
+      $match: { _id: new ObjectId(userId) },
     },
     // Lookup blood camps organized by the user
     {
@@ -351,6 +353,12 @@ const getUserProfileDetails = asyncHandler(async (req, res) => {
         localField: "_id",
         foreignField: "organizer",
         as: "organizedBloodCamps",
+      },
+    },
+    // Add a field to calculate the count of organizedBloodCamps
+    {
+      $addFields: {
+        organizedBloodCampsCount: { $size: "$organizedBloodCamps" },
       },
     },
     // Lookup blood forms submitted by the user
@@ -397,14 +405,13 @@ const getUserProfileDetails = asyncHandler(async (req, res) => {
         email: 1,
         phoneNumber: 1,
         submittedBloodForms: 1,
-        organizedBloodCamps: {
-          $size: "$organizedBloodCamps", // Count of organized blood camps
-        },
+        organizedBloodCamps: 1,
+        organizedBloodCampsCount: 1,
         submittedBloodFormsCount: 1, // Include the count of submitted blood forms
       },
     },
   ]);
-  console.log(userProfileDetails);
+  // console.log(userProfileDetails);
   if (!userProfileDetails || userProfileDetails.length === 0) {
     throw new ApiError(404, "User not found");
   }

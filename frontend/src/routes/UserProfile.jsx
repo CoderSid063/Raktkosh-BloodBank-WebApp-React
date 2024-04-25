@@ -2,22 +2,70 @@ import "../styles/user-profile.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
+import { userActions } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const UserProfile = () => {
-  const token = useSelector((store) => store.auth.accessToken);
-  const dispatch = useDispatch();
+  console.log("UserProfile component rendered");
+  const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
   const navigate = useNavigate();
 
-  const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
+  const token = useSelector((store) => store.auth.accessToken);
+  // console.log(token);
+
+  const { userData } = useSelector((state) => state.user);
+  // console.log(userData);
+  // console.log(userData._id);
+
+  const { organizedBloodCamps, submittedBloodForms } = useSelector(
+    (state) => state.user
+  );
 
   const handleAvatarClick = () => {
     setIsAvatarExpanded(!isAvatarExpanded);
   };
 
-  const { userData } = useSelector((state) => state.user);
-  // console.log(userData);
+  // this endpont get the user deatils related Camps or BloodReuest or Blood donates :-
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/users/getuserprofile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+          },
+          params: {
+            userId: userData._id, // Pass the user ID as a query parameter
+          },
+        }
+      );
+
+      // console.log(response);
+      const responseData = response.data;
+      // console.log(responseData);
+      const { data } = responseData;
+      // console.log(data);
+      const { organizedBloodCamps } = data;
+      const { submittedBloodForms } = data;
+      // console.log(organizedBloodCamps);
+      // console.log(submittedBloodForms);
+
+      // Dispatch action to store user profile data in Redux store
+      dispatch(userActions.setOrganizedBloodCamps(organizedBloodCamps));
+
+      dispatch(userActions.setSubmittedBloodForms(submittedBloodForms));
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userData) {
+      fetchUserProfile();
+    }
+  }, [userData]);
+  const dispatch = useDispatch();
 
   const handleForgetPassword = async () => {
     try {
@@ -77,9 +125,29 @@ const UserProfile = () => {
         <button>Edit</button>
       </div>
       <div className="service">
-        <div className="user-camps insidebox"></div>
-        <div className="user-donate insidebox"></div>
-        <div className="user-request insidebox"></div>
+        <div className="user-camps insidebox">
+          <p>Blood Camps Organized : {organizedBloodCamps.length}</p>
+        </div>
+        <div className="user-donate insidebox">
+          <p>
+            Requested for Blood:{" "}
+            {
+              submittedBloodForms.filter(
+                (form) => form.formType === "Bloodrequest"
+              ).length
+            }
+          </p>
+        </div>
+        <div className="user-request insidebox">
+          <p>
+            Blood you Donated :{" "}
+            {
+              submittedBloodForms.filter(
+                (form) => form.formType === "DonateBlood"
+              ).length
+            }
+          </p>
+        </div>
       </div>
       <div className="logout">
         <button onClick={handleLogout}>Logout</button>

@@ -13,6 +13,14 @@ const userSlice = createSlice({
     clearUserData: (state) => {
       state.userData = null;
     },
+    setOrganizedBloodCamps: (state, action) => {
+      // console.log(action.payload);
+      state.organizedBloodCamps = action.payload;
+    },
+    setSubmittedBloodForms: (state, action) => {
+      // console.log(action.payload);
+      state.submittedBloodForms = action.payload;
+    },
   },
 });
 
