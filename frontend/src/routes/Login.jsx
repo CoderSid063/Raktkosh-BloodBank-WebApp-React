@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { userActions } from "../store/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -38,23 +39,24 @@ const Login = () => {
         "http://localhost:5000/api/v1/users/login",
         loginFormData
       );
-      console.log(response);
+      // console.log(response);
 
       if (response.status === 200) {
         const responseData = response.data;
         const { data } = responseData;
         const { accessToken, refreshToken } = data;
         // console.log(data);
+        const { user } = data;
+        // console.log(user);
         // console.log(data.accessToken);
         // console.log(data.refreshToken);
 
         //sending tokens to redux store :-
         dispatch(authActions.setTokens({ accessToken, refreshToken }));
 
-        // set token in localStorage:-
+        //sending userdata to redux store:-
+        dispatch(userActions.setUserData(user));
 
-        // localStorage.setItem("accessToken", accessToken);
-        // localStorage.setItem("refreshToken", refreshToken);
         // Reset form after submission
         setLoginFormData({
           email: "",

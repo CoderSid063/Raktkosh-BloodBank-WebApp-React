@@ -17,6 +17,7 @@ import { Provider } from "react-redux";
 import raktkoshStore from "./store/store.js";
 import { ChangePassword } from "./routes/ChangePassword.jsx";
 import RegisterForm from "./routes/RegisterForm.jsx";
+import UserProfile from "./routes/UserProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,14 +28,15 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/aboutus", element: <AboutUs /> },
       { path: "/contactus", element: <ContactUs /> },
+      { path: "/user-profile", element: <UserProfile /> },
       { path: "/login", element: <Login /> },
+      { path: "/login/changePassword", element: <ChangePassword /> },
+      { path: "/login/register", element: <RegisterForm /> },
       { path: "/bloodavailable", element: <BloodAvailable /> },
       { path: "/searchCamp", element: <BloodCamps /> },
       { path: "/RegisterCamp", element: <BloodCampReg /> },
       { path: "/donerRegister", element: <DonorRgister /> },
       { path: "/bloodrequest", element: <BloodRequest /> },
-      { path: "/login/changePassword", element: <ChangePassword /> },
-      { path: "/login/register", element: <RegisterForm /> },
     ],
   },
 ]);
