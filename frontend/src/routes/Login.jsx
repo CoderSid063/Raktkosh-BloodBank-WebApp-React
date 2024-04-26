@@ -1,13 +1,13 @@
 import { useState } from "react";
-import axios from "axios";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { authActions } from "../store/authSlice";
+// import { authActions } from "../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { userActions } from "../store/userSlice";
+import { authActions } from "../store/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -34,27 +34,31 @@ const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    // console.log(loginFormData);
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/users/login",
-        loginFormData
-      );
-      // console.log(response);
+      const response = await fetch("http://localhost:5000/api/v1/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginFormData),
+        credentials: "include",
+      });
 
       if (response.status === 200) {
-        const responseData = response.data;
+        const responseData = await response.json();
+        console.log(responseData);
         const { data } = responseData;
-        const { accessToken, refreshToken } = data;
-        // console.log(data);
+        // const { accessToken, refreshToken } = data;
+        console.log(data);
         const { user } = data;
-        // console.log(user);
-        // console.log(data.accessToken);
-        // console.log(data.refreshToken);
+        console.log(user);
 
         //sending tokens to redux store :-
-        dispatch(authActions.setTokens({ accessToken, refreshToken }));
+        dispatch(authActions.setTokens());
+        // dispatch(authActions.setTokens({ accessToken, refreshToken }));
 
-        //sending userdata to redux store:-
+        // //sending userdata to redux store:-
         dispatch(userActions.setUserData(user));
 
         // Reset form after submission

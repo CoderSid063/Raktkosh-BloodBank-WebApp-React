@@ -8,16 +8,14 @@ const authSlice = createSlice({
     isAuthenticated: false,
   },
   reducers: {
-    setTokens: (state, action) => {
+    setTokens: (state) => {
       // console.log(action.payload);
-      const { accessToken, refreshToken } = action.payload;
-      state.accessToken = accessToken;
-      state.refreshToken = refreshToken;
-      state.isAuthenticated = !!accessToken;
+      // const { accessToken, refreshToken } = action.payload;
+      // state.accessToken = accessToken;
+      // state.refreshToken = refreshToken;
+      state.isAuthenticated = true;
     },
     clearTokens: (state) => {
-      state.accessToken = null;
-      state.refreshToken = null;
       state.isAuthenticated = false;
     },
   },

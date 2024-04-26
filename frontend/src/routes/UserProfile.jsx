@@ -4,68 +4,72 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
 import { userActions } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const UserProfile = () => {
   console.log("UserProfile component rendered");
-  const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
+
+  const avatarRef = useRef(null);
+  // method for expand the user avatar
+  const toggleAvatar = () => {
+    avatarRef.current.classList.toggle("expanded");
+  };
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const token = useSelector((store) => store.auth.accessToken);
   // console.log(token);
 
-  const { userData } = useSelector((state) => state.user);
-  // console.log(userData);
-  // console.log(userData._id);
-
-  const { organizedBloodCamps, submittedBloodForms } = useSelector(
+  const { userData, organizedBloodCamps, submittedBloodForms } = useSelector(
     (state) => state.user
   );
-
-  const handleAvatarClick = () => {
-    setIsAvatarExpanded(!isAvatarExpanded);
-  };
-
-  // this endpont get the user deatils related Camps or BloodReuest or Blood donates :-
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/users/getuserprofile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
-          },
-          params: {
-            userId: userData._id, // Pass the user ID as a query parameter
-          },
-        }
-      );
-
-      // console.log(response);
-      const responseData = response.data;
-      // console.log(responseData);
-      const { data } = responseData;
-      // console.log(data);
-      const { organizedBloodCamps } = data;
-      const { submittedBloodForms } = data;
-      // console.log(organizedBloodCamps);
-      // console.log(submittedBloodForms);
-
-      // Dispatch action to store user profile data in Redux store
-      dispatch(userActions.setOrganizedBloodCamps(organizedBloodCamps));
-
-      dispatch(userActions.setSubmittedBloodForms(submittedBloodForms));
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
 
   useEffect(() => {
     if (userData) {
       fetchUserProfile();
     }
   }, [userData]);
-  const dispatch = useDispatch();
+
+  // this endpont get the user deatils related Camps or BloodReuest or Blood donates :-
+  const fetchUserProfile = async () => {
+    const cookies = document.cookie;
+    const userId = userData._id;
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Cookie: cookies, // Add cookies to request headers
+          },
+        }
+      );
+
+      if (response.ok) {
+        // Convert the response to JSON format //
+        const res = await response.json();
+        const { data } = res; // Now 'data' contains the JSON response from the server
+        // console.log(data);
+        const { organizedBloodCamps } = data;
+        const { submittedBloodForms } = data;
+        // console.log(organizedBloodCamps);
+        // console.log(submittedBloodForms);
+
+        // Dispatch action to store user profile data in Redux store //
+        dispatch(
+          userActions.setOrganizedBloodCamps(organizedBloodCamps),
+          userActions.setSubmittedBloodForms(submittedBloodForms)
+        );
+      } else {
+        // Handle error
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
 
   const handleForgetPassword = async () => {
     try {
@@ -111,10 +115,7 @@ const UserProfile = () => {
     <div className="container">
       <h2>User Profile</h2>
       <div className="profile-details">
-        <div
-          className={`avatar ${isAvatarExpanded ? "expanded" : ""}`}
-          onClick={handleAvatarClick}
-        >
+        <div className={`avatar`} onClick={toggleAvatar} ref={avatarRef}>
           <img src={userData.avatar} alt="Avatar" />
         </div>
         <div className="user-details">

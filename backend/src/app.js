@@ -6,10 +6,18 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CROS_ORIGIN,
+    origin: "http://localhost:5173",
+    method: "GET,POST, PUT, DELETE, PATCH, HEAD",
     credentials: true,
   }),
 );
+
+// app.use(
+//   cors({
+//     origin: process.env.CROS_ORIGIN,
+//     credentials: true,
+//   }),
+// );
 
 app.use(express.static("public"));
 

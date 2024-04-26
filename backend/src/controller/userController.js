@@ -338,13 +338,17 @@ const updateUserAddharImage = asyncHandler(async (req, res) => {
 
 const getUserProfileDetails = asyncHandler(async (req, res) => {
   const userId = req.query.userId;
-  // console.log(userId);
+  console.log(userId);
+
+  //converting string to ObjectId:-
+  const id = ObjectId.createFromHexString(userId);
+  // console.log(id);
 
   // Use MongoDB aggregation pipeline to aggregate data from multiple collections
   const userProfileDetails = await User.aggregate([
     // Match the user by their ID
     {
-      $match: { _id: new ObjectId(userId) },
+      $match: { _id: id },
     },
     // Lookup blood camps organized by the user
     {
@@ -411,7 +415,8 @@ const getUserProfileDetails = asyncHandler(async (req, res) => {
       },
     },
   ]);
-  // console.log(userProfileDetails);
+  console.log(userProfileDetails);
+
   if (!userProfileDetails || userProfileDetails.length === 0) {
     throw new ApiError(404, "User not found");
   }
