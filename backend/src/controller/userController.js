@@ -165,8 +165,13 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
+  const userId = req.query.userId;
+  console.log(userId);
+  // const id = ObjectId.createFromHexString(userId);
   const user = await User.findByIdAndUpdate(
-    req.user._id,
+    userId,
+    console.log(user),
+    // req.user._id,
     {
       $set: {
         refreshToken: undefined,
@@ -180,6 +185,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   //options for cokkies:-
   const options = {
     httpOnly: true,
+    sameSite: "none",
   };
   return res
     .status(200)
@@ -415,7 +421,7 @@ const getUserProfileDetails = asyncHandler(async (req, res) => {
       },
     },
   ]);
-  console.log(userProfileDetails);
+  // console.log(userProfileDetails);
 
   if (!userProfileDetails || userProfileDetails.length === 0) {
     throw new ApiError(404, "User not found");

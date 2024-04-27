@@ -1,24 +1,27 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import styles from "./navbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { authActions } from "../../store/authSlice";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = useSelector((store) => store.auth.accessToken);
+  const { userData } = useSelector((store) => store.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const handleLogout = async () => {
+    const cookies = document.cookie;
+    const userId = userData._id;
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/users/logout",
-        {},
+      const response = await fetch(
+        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
         {
+          method: "GET",
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Cookie: cookies, // Add cookies to request headers
           },
         }
       );
@@ -27,6 +30,7 @@ const Navbar = () => {
         // Clear tokens from Redux store and local storage
         dispatch(authActions.clearTokens());
         alert("Logout Successfully");
+        navigate("/");
       } else {
         console.error("Failed to logout:", response.data.message);
       }

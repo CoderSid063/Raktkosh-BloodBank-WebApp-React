@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-// import { authActions } from "../store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { userActions } from "../store/userSlice";
 import { authActions } from "../store/authSlice";
+import { URL } from "../utils/Url.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,8 @@ const Login = () => {
     e.preventDefault();
     // console.log(loginFormData);
     try {
-      const response = await fetch("http://localhost:5000/api/v1/users/login", {
+      // const response = await fetch("http://localhost:5000/api/v1/users/login"
+      const response = await fetch(`${URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,16 +48,11 @@ const Login = () => {
 
       if (response.status === 200) {
         const responseData = await response.json();
-        console.log(responseData);
         const { data } = responseData;
-        // const { accessToken, refreshToken } = data;
-        console.log(data);
         const { user } = data;
-        console.log(user);
 
         //sending tokens to redux store :-
         dispatch(authActions.setTokens());
-        // dispatch(authActions.setTokens({ accessToken, refreshToken }));
 
         // //sending userdata to redux store:-
         dispatch(userActions.setUserData(user));
@@ -70,10 +66,55 @@ const Login = () => {
 
         navigate("/");
       } else {
-        console.error("Error logging in:", response.message);
+        console.log("Error logging in:", response.message);
       }
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.log("Error logging in:", error);
+    }
+  };
+
+  const { userData } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (userData) {
+      fetchUserProfile();
+    }
+  }, [userData]);
+
+  // this endpont get the user deatils related Camps or BloodReuest or Blood donates :-
+  const fetchUserProfile = async () => {
+    const cookies = document.cookie;
+    const userId = userData._id;
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Cookie: cookies, // Add cookies to request headers
+          },
+        }
+      );
+
+      if (response.ok) {
+        // Convert the response to JSON format //
+        const res = await response.json();
+        const { data } = res; // Now 'data' contains the JSON response from the server
+        // console.log(data);
+        const { organizedBloodCamps } = data;
+        const { submittedBloodForms } = data;
+        // console.log(organizedBloodCamps);
+        // console.log(submittedBloodForms);
+
+        // Dispatch action to store user profile data in Redux store //
+        dispatch(userActions.setOrganizedBloodCamps(organizedBloodCamps));
+        dispatch(userActions.setSubmittedBloodForms(submittedBloodForms));
+      } else {
+        // Handle error
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
     }
   };
 

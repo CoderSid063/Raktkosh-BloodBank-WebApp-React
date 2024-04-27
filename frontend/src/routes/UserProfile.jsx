@@ -2,12 +2,14 @@ import "../styles/user-profile.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
-import { userActions } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 const UserProfile = () => {
   console.log("UserProfile component rendered");
+  const { userData, organizedBloodCamps, submittedBloodForms } = useSelector(
+    (state) => state.user
+  );
 
   const avatarRef = useRef(null);
   // method for expand the user avatar
@@ -17,59 +19,6 @@ const UserProfile = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const token = useSelector((store) => store.auth.accessToken);
-  // console.log(token);
-
-  const { userData, organizedBloodCamps, submittedBloodForms } = useSelector(
-    (state) => state.user
-  );
-
-  useEffect(() => {
-    if (userData) {
-      fetchUserProfile();
-    }
-  }, [userData]);
-
-  // this endpont get the user deatils related Camps or BloodReuest or Blood donates :-
-  const fetchUserProfile = async () => {
-    const cookies = document.cookie;
-    const userId = userData._id;
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Cookie: cookies, // Add cookies to request headers
-          },
-        }
-      );
-
-      if (response.ok) {
-        // Convert the response to JSON format //
-        const res = await response.json();
-        const { data } = res; // Now 'data' contains the JSON response from the server
-        // console.log(data);
-        const { organizedBloodCamps } = data;
-        const { submittedBloodForms } = data;
-        // console.log(organizedBloodCamps);
-        // console.log(submittedBloodForms);
-
-        // Dispatch action to store user profile data in Redux store //
-        dispatch(
-          userActions.setOrganizedBloodCamps(organizedBloodCamps),
-          userActions.setSubmittedBloodForms(submittedBloodForms)
-        );
-      } else {
-        // Handle error
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
 
   const handleForgetPassword = async () => {
     try {
@@ -85,19 +34,20 @@ const UserProfile = () => {
   };
 
   const handleLogout = async () => {
+    const cookies = document.cookie;
+    const userId = userData._id;
     try {
-      // Make API request to logout
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/users/logout",
-        null,
+      const response = await fetch(
+        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
         {
+          method: "GET",
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Cookie: cookies, // Add cookies to request headers
           },
-        },
-        { withCredentials: true } // Send cookies along with the request
+        }
       );
-      // console.log(response); // Handle response accordingly
+      console.log(response); // Handle response accordingly
       if (response.status === 200) {
         // Clear tokens from Redux store and redirect to login page
         dispatch(authActions.clearTokens());
