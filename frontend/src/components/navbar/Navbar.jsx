@@ -8,24 +8,19 @@ import { authActions } from "../../store/authSlice";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userData } = useSelector((store) => store.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const handleLogout = async () => {
-    const cookies = document.cookie;
-    const userId = userData._id;
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
+        "http://localhost:5000/api/v1/users/logout",
         {
-          method: "GET",
+          method: "POST",
           credentials: "include",
-          headers: {
-            Cookie: cookies, // Add cookies to request headers
-          },
         }
       );
       console.log(response);
+
       if (response.status === 200) {
         // Clear tokens from Redux store and local storage
         dispatch(authActions.clearTokens());

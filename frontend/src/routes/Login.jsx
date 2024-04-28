@@ -36,15 +36,15 @@ const Login = () => {
     e.preventDefault();
     // console.log(loginFormData);
     try {
-      // const response = await fetch("http://localhost:5000/api/v1/users/login"
       const response = await fetch(`${URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(loginFormData),
-        credentials: "include",
+        credentials: "include", // without this we can't store token in cookie storage only in "localhost"
       });
+      // console.log(response);
 
       if (response.status === 200) {
         const responseData = await response.json();
@@ -66,7 +66,7 @@ const Login = () => {
 
         navigate("/");
       } else {
-        console.log("Error logging in:", response.message);
+        console.log("Error logging in:", response.statusText);
       }
     } catch (error) {
       console.log("Error logging in:", error);
@@ -74,15 +74,16 @@ const Login = () => {
   };
 
   const { userData } = useSelector((state) => state.user);
+
   useEffect(() => {
     if (userData) {
+      // console.log(userData);
       fetchUserProfile();
     }
   }, [userData]);
 
   // this endpont get the user deatils related Camps or BloodReuest or Blood donates :-
   const fetchUserProfile = async () => {
-    const cookies = document.cookie;
     const userId = userData._id;
     try {
       const response = await fetch(
@@ -90,11 +91,9 @@ const Login = () => {
         {
           method: "GET",
           credentials: "include",
-          headers: {
-            Cookie: cookies, // Add cookies to request headers
-          },
         }
       );
+      // console.log(response);
 
       if (response.ok) {
         // Convert the response to JSON format //

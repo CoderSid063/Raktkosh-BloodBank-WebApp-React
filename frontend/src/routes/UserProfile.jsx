@@ -34,25 +34,21 @@ const UserProfile = () => {
   };
 
   const handleLogout = async () => {
-    const cookies = document.cookie;
-    const userId = userData._id;
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
+        "http://localhost:5000/api/v1/users/logout",
         {
-          method: "GET",
+          method: "POST",
           credentials: "include",
-          headers: {
-            Cookie: cookies, // Add cookies to request headers
-          },
         }
       );
-      console.log(response); // Handle response accordingly
+      console.log(response);
+
       if (response.status === 200) {
-        // Clear tokens from Redux store and redirect to login page
+        // Clear tokens from Redux store and local storage
         dispatch(authActions.clearTokens());
         alert("Logout Successfully");
-        navigate("/login");
+        navigate("/");
       } else {
         console.error("Failed to logout:", response.data.message);
       }

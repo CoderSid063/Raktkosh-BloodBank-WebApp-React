@@ -165,16 +165,11 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  const userId = req.query.userId;
-  console.log(userId);
-  // const id = ObjectId.createFromHexString(userId);
   const user = await User.findByIdAndUpdate(
-    userId,
-    console.log(user),
-    // req.user._id,
+    req.user._id,
     {
       $set: {
-        refreshToken: undefined,
+        refreshToken: 1,
       },
     },
     {
@@ -185,7 +180,6 @@ const logoutUser = asyncHandler(async (req, res) => {
   //options for cokkies:-
   const options = {
     httpOnly: true,
-    sameSite: "none",
   };
   return res
     .status(200)
@@ -344,7 +338,7 @@ const updateUserAddharImage = asyncHandler(async (req, res) => {
 
 const getUserProfileDetails = asyncHandler(async (req, res) => {
   const userId = req.query.userId;
-  console.log(userId);
+  // console.log(userId);
 
   //converting string to ObjectId:-
   const id = ObjectId.createFromHexString(userId);
