@@ -18,6 +18,7 @@ import raktkoshStore from "./store/store.js";
 import { ChangePassword } from "./routes/ChangePassword.jsx";
 import RegisterForm from "./routes/RegisterForm.jsx";
 import UserProfile from "./routes/UserProfile.jsx";
+import ForgetPassword from "./routes/ForgetPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,8 @@ const router = createBrowserRouter([
       { path: "/contactus", element: <ContactUs /> },
       { path: "/user-profile", element: <UserProfile /> },
       { path: "/login", element: <Login /> },
-      { path: "/login/changePassword", element: <ChangePassword /> },
+      { path: "/user-profile/changePassword", element: <ChangePassword /> },
+      { path: "/login/forget-password", element: <ForgetPassword /> },
       { path: "/login/register", element: <RegisterForm /> },
       { path: "/bloodavailable", element: <BloodAvailable /> },
       { path: "/searchCamp", element: <BloodCamps /> },

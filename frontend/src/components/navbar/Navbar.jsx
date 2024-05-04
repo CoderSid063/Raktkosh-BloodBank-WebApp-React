@@ -56,7 +56,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <li>
-                <NavLink to="/user-profile">
+                <NavLink to="user-profile">
                   <FontAwesomeIcon icon={faUser} />
                 </NavLink>
               </li>

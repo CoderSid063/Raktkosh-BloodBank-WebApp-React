@@ -11,14 +11,6 @@ The project repository is divided into two main directories:
 1. **backend**: Contains the Node.js server code.
 2. **frontend**: Contains the client-side code.
 
-### Backend
-
-The backend directory houses the Node.js server code responsible for handling API requests, database interactions, and business logic. To start the backend server, run the following command:
-
-### Frontend
-
-The frontend directory contains the client-side code, including the React.js application responsible for the user interface. To start the frontend development server, run the following command:
-
 ## Acknowledgements
 
 ### Installation
@@ -31,7 +23,7 @@ To set up E-Raktkosh locally, follow these steps:
 
 ## Run Locally
 
-Clone the project
+Clone the project :-
 
 ```bash
   git clone https://github.com/CoderSid063/Raktkosh-BloodBank-WebApp-React.git
@@ -39,15 +31,27 @@ Clone the project
 
 Go to the project directory and install dependencies
 
+### Backend
+
+The backend directory houses the Node.js server code responsible for handling API requests, database interactions. To start the backend server, run the following command:
+
 ```bash
 cd backend
 npm install
+npm run dev
+```
 
-and
+### Frontend
 
+The frontend directory contains the client-side code, including the React.js application responsible for the User interface. To start the frontend development server, run the following command:
+
+```bash
 cd frontend
 npm install
+npm run dev
 ```
+
+## OR
 
 Start the server in both directory
 
@@ -57,7 +61,7 @@ npm run dev
 
 ## Usage
 
-Once the servers are running, you can access the E-Raktkosh platform through your web browser. Register an account to start organizing blood camps, requesting blood donations, or donating blood to those in need. Explore the different features and functionalities provided by the platform to contribute to the blood donation ecosystem.
+Once the servers are running, you can access the E-Raktkosh platform through your web browser. Register an account to start organizing blood camps, requesting blood donations, donating blood to those in need. Explore the different features and functionalities provided by the platform to contribute to the blood donation ecosystem.
 
 ## Credits
 
@@ -69,7 +73,7 @@ E-Raktkosh was developed by "Sudhansu Sekhar Panda" and "Sambit" and "Rajendra B
 - Blood Camp Creation
 - Blood Request
 - Blood Donation
-- Profile Management
+- Profile Management(user can perform "CRUD" operation)
 - Responsive Design
 
 ## Demo

@@ -72,7 +72,20 @@ const Login = () => {
       console.log("Error logging in:", error);
     }
   };
-
+  /*
+  const handleForgetPassword = async () => {
+    try {
+      // Make API request to forget password
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/users/change-password",
+        { email: userData.email }
+      );
+      console.log(response.data); // Handle response accordingly
+    } catch (error) {
+      console.error("Error forgetting password:", error);
+    }
+  };
+*/
   const { userData } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -86,13 +99,10 @@ const Login = () => {
   const fetchUserProfile = async () => {
     const userId = userData._id;
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/v1/users/getuserprofile?userId=${userId}`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${URL}/getuserprofile?userId=${userId}`, {
+        method: "GET",
+        credentials: "include",
+      });
       // console.log(response);
 
       if (response.ok) {
@@ -161,7 +171,7 @@ const Login = () => {
           </div>
 
           <div className="option_field">
-            <Link to="/login/changePassword" className="forgot_pw">
+            <Link to="/forget-password" className="forgot_pw">
               Forgot password
             </Link>
           </div>

@@ -1,8 +1,7 @@
 import "../styles/user-profile.css";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 const UserProfile = () => {
@@ -19,19 +18,6 @@ const UserProfile = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const handleForgetPassword = async () => {
-    try {
-      // Make API request to forget password
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/users/change-password",
-        { email: userData.email }
-      );
-      console.log(response.data); // Handle response accordingly
-    } catch (error) {
-      console.error("Error forgetting password:", error);
-    }
-  };
 
   const handleLogout = async () => {
     try {
@@ -98,7 +84,9 @@ const UserProfile = () => {
       </div>
       <div className="logout">
         <button onClick={handleLogout}>Logout</button>
-        <button onClick={handleForgetPassword}>Forget Password</button>
+        <Link to="changePassword">
+          <button>change Password</button>
+        </Link>
       </div>
     </div>
   );
