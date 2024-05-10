@@ -51,13 +51,9 @@ npm install
 npm run dev
 ```
 
-## OR
+## .env
 
-Start the server in both directory
-
-```bash
-npm run dev
-```
+Create your own .env file for more references You can check ".envExample.txt" .
 
 ## Usage
 
