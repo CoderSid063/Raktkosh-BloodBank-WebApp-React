@@ -73,6 +73,7 @@ E-Raktkosh was developed by "Sudhansu Sekhar Panda" and "Sambit" and "Rajendra B
 - Responsive Design
 
 ## Demo
+![System Design](https://res.cloudinary.com/raktkoshodisha/image/upload/v1715405939/website%20images/bivmzpunv4aojmuwgxei.png)
 
 ![App Screenshot](https://res.cloudinary.com/raktkoshodisha/image/upload/v1714195263/website%20images/baz7moswbzzjgbw4zomw.png)
 
