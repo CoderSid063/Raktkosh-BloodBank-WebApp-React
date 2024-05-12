@@ -2,8 +2,9 @@ import "../styles/user-profile.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { userActions } from "../store/userSlice";
+import { URL } from "../utils/Url";
 
 const UserProfile = () => {
   console.log("UserProfile component rendered");
@@ -17,27 +18,24 @@ const UserProfile = () => {
     phoneNumber: userData.phoneNumber,
   });
 
-  const handleInputChange = useCallback((e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUserData((prevState) => ({
-      ...prevState,
+    setEditedUserData({
+      ...editedUserData,
       [name]: value,
-    }));
-  }, []);
+    });
+  };
 
   const handleUpdateProfile = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/v1/users/update-account",
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editedUserData),
-        }
-      );
+      const response = await fetch(`${URL}/update-account`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedUserData),
+      });
 
       if (response.ok) {
         const res = await response.json();

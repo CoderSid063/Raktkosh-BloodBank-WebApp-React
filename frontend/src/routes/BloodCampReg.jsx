@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { URL } from "../utils/Url";
 
 const BloodCampReg = () => {
   const navigate = useNavigate();
-  const token = useSelector((store) => store.auth.accessToken);
+  // const token = useSelector((store) => store.auth.accessToken);
   const [formData, setFormData] = useState({
     organizerName: "",
     location: "",
@@ -22,28 +23,25 @@ const BloodCampReg = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/v1/user/register-camps",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${URL}/register-camps`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.status === 401) {
         alert("Please Login Before register for BloodCamp");
         navigate("/login");
       } else {
+        const data = await response.json();
+        console.log(data);
         alert("Camp Register Successfully");
         navigate("/");
       }
-
-      const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error.message); // Handle error
     }

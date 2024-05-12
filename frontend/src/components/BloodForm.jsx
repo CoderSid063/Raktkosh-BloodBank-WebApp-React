@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { URL } from "../utils/Url.js";
 
 const BloodForm = ({ formName }) => {
-  const token = useSelector((store) => store.auth.accessToken);
+  // const token = useSelector((store) => store.auth.accessToken);
   const formRef = useRef(null);
   const navigate = useNavigate();
 
@@ -15,22 +16,22 @@ const BloodForm = ({ formName }) => {
     // console.log("Form Values:", formValues);
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/v1/user/reqblood-donation`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formValues),
-        }
-      );
+      const response = await fetch(`${URL}/reqblood-donation`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formValues),
+      });
 
       if (response.status === 401) {
         alert("Please Login Before register for BloodCamp");
         navigate("/login");
       } else {
+        const res = await response.json();
+        console.log(res);
         alert(`${formValues.fullName} your ${formName} form created`);
         navigate("/");
       }

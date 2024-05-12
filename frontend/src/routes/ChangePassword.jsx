@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/login.css";
 import axios from "axios";
+import { URL } from "../utils/Url";
 
 export const ChangePassword = () => {
   const [changePasswordFormData, setChangePasswordFormData] = useState({
@@ -20,7 +21,7 @@ export const ChangePassword = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/users/change-password",
+        `${URL}/change-password`,
         changePasswordFormData
       );
       console.log(response.data);

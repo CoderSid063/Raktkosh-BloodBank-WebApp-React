@@ -1,5 +1,7 @@
 import styles from "./home.module.css";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
   return (
@@ -43,6 +45,8 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
+                <FontAwesomeIcon icon={faUser} />
+                <br />
                 <Link to="/bloodavailable" className={styles.cardm}>
                   Blood Availability Search
                 </Link>
@@ -55,6 +59,9 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
+                <br />
+                <FontAwesomeIcon icon={faUser} />
+                <br />
                 <Link to="/searchCamp" className={styles.cardm}>
                   Blood Donation camps
                 </Link>
@@ -67,8 +74,11 @@ const Home = () => {
               style={{ width: "8rem", height: "10rem" }}
             >
               <div className="card-body">
+                <br />
+                <FontAwesomeIcon icon={faUser} />
+                <br />
                 <Link to="/RegisterCamp" className={styles.cardm}>
-                  Register For Voluntary Blood Camp
+                  Register For Blood Camp
                 </Link>
               </div>
             </div>
@@ -80,6 +90,7 @@ const Home = () => {
             >
               <div className="card-body">
                 <br />
+                <FontAwesomeIcon icon={faUser} />
                 <br />
                 <Link to="/donerRegister" className={styles.cardm}>
                   Donor <br />
@@ -95,6 +106,7 @@ const Home = () => {
             >
               <div className="card-body">
                 <br />
+                <FontAwesomeIcon icon={faUser} />
                 <br />
                 <Link to="/bloodrequest" className={styles.cardm}>
                   Blood Request

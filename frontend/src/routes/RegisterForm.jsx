@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { URL } from "../utils/Url";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -41,13 +42,10 @@ const RegisterForm = () => {
         formDataToSend.append(key, value);
       });
       console.log(formDataToSend);
-      const response = await fetch(
-        "http://localhost:5000/api/v1/users/register",
-        {
-          method: "POST",
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch(`${URL}/register`, {
+        method: "POST",
+        body: formDataToSend,
+      });
       // console.log(response);
 
       // Reset form after submission

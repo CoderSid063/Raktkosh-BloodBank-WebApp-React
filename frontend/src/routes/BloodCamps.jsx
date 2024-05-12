@@ -5,7 +5,7 @@ const BloodCamps = () => {
   const camps = useSelector((store) => store.camps);
   return (
     <>
-      <div>
+      <div className="main">
         {camps.map((camps) => (
           <CampCard key={camps._id} camps={camps} />
         ))}

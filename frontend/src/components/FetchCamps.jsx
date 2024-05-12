@@ -11,7 +11,7 @@ const FetchCamps = () => {
   const fetchCamps = async () => {
     await Axios.get("http://localhost:5000/api/v1/public/blood-camps")
       .then(({ data }) => {
-        // console.log(data);
+        console.log(data);
         // dispatch(fetchStatusActions.markFetchDone());
         // dispatch(fetchStatusActions.markFetchingFinished());
         dispatch(campsActions.addInitialItems(data));
