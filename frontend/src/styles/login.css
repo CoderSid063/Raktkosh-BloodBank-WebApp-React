@@ -61,6 +61,25 @@
   border-color: #ff0000;
 }
 
+.or{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 16px;
+}
+ .orline{
+  height: 2px;
+  width: 30%;
+  margin-top: 15px;
+  background: rgba(39, 37, 37, 0.158);
+}
+
+.or h4{
+  color: red;
+  font-weight: 600;
+}
+
 .option_field {
   margin-top: 14px;
   display: flex;

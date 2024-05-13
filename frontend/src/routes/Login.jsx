@@ -142,6 +142,13 @@ const Login = () => {
             />
             <div className="line"></div>
           </div>
+
+          <div className="or">
+            <div className="orline"></div>
+            <h4>OR</h4>
+            <div className="orline"></div>
+          </div>
+
           <div className="input_box">
             <input
               type="text"
