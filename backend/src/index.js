@@ -10,7 +10,7 @@ connectDB()
     });
 
     app.listen(process.env.PORT || 5000, () => {
-      console.log(`Server is running at http://localhost:${process.env.PORT}`);
+      console.log(`Server is running at ${process.env.PORT || 5000}`);
     });
   })
   .catch((error) => {
