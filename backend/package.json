@@ -4,7 +4,8 @@
   "description": "Blood management system",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start":"node index.js"
   },
   "keywords": [
     "node",
