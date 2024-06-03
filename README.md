@@ -59,10 +59,6 @@ Create your own .env file for more references You can check ".envExample.txt" .
 
 Once the servers are running, you can access the E-Raktkosh platform through your web browser. Register an account to start organizing blood camps, requesting blood donations, donating blood to those in need. Explore the different features and functionalities provided by the platform to contribute to the blood donation ecosystem.
 
-## Credits
-
-E-Raktkosh was developed by "Sudhansu Sekhar Panda" and "Sambit" and "Rajendra Barik" with inspiration and support from the blood donation community. Email :- sudhansupanda063@gmail.com , s4sambit632@gmail.com.
-
 ## Features
 
 - User Registration and Authentication (JWT Token System)
